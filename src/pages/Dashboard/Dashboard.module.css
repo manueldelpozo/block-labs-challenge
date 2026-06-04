@@ -1,0 +1,11 @@
+.statsGrid {
+  margin-top: var(--mantine-spacing-xl);
+}
+
+.analyticsSection {
+  margin-top: var(--mantine-spacing-xl);
+}
+
+.betaBanner {
+  margin-bottom: var(--mantine-spacing-md);
+}

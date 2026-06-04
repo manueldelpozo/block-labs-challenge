@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--mantine-spacing-md);
+  height: 100%;
+  border-bottom: 1px solid var(--bl-color-border);
+  background-color: var(--mantine-color-body);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  text-decoration: none;
+  color: inherit;
+}
+
+.navLinks {
+  display: flex;
+  gap: var(--mantine-spacing-sm);
+}
+
+@media (max-width: 48em) {
+  .navLinks {
+    display: none;
+  }
+}

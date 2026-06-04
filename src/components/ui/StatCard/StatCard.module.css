@@ -1,0 +1,26 @@
+.card {
+  padding: var(--mantine-spacing-lg);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  background-color: var(--mantine-color-body);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mantine-shadow-md);
+}
+
+.value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.trendPositive {
+  color: var(--mantine-color-green-6);
+  font-weight: 600;
+}
+
+.trendNegative {
+  color: var(--mantine-color-red-6);
+  font-weight: 600;
+}
