@@ -5,6 +5,7 @@ import { LoadingFallback } from '@/components/common/LoadingFallback';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 
 const Dashboard = lazy(() => import('@/pages/Dashboard').then((m) => ({ default: m.Dashboard })));
+const Profile = lazy(() => import('@/pages/Profile').then((m) => ({ default: m.Profile })));
 const Settings = lazy(() => import('@/pages/Settings').then((m) => ({ default: m.Settings })));
 const NotFound = lazy(() => import('@/pages/NotFound').then((m) => ({ default: m.NotFound })));
 
@@ -22,6 +23,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<LoadingFallback message="Retrieving dashboard metrics..." />}>
             <Dashboard />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'profile',
+        element: (
+          <Suspense fallback={<LoadingFallback message="Loading user profile..." />}>
+            <Profile />
           </Suspense>
         ),
       },

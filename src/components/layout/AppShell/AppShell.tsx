@@ -12,6 +12,7 @@ export function AppShell() {
 
   const navItems = [
     { label: 'Dashboard', path: '/', icon: '📊' },
+    { label: 'Profile', path: '/profile', icon: '👤' },
     ...(showSettings ? [{ label: 'Settings', path: '/settings', icon: '⚙️' }] : []),
   ];
 

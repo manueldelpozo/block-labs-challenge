@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Paper,
   Stack,
@@ -11,9 +11,15 @@ import {
   Title,
   Divider,
 } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { useTenant } from '@/hooks/useTenant';
 import { useFeatureFlag } from '@/hooks/useFeatureFlag';
+
+interface SettingsFormValues {
+  username: string;
+  emailNotify: boolean;
+}
 
 export function Settings() {
   const { tenant, tenantId } = useTenant();
@@ -21,14 +27,26 @@ export function Settings() {
   const enableDarkMode = useFeatureFlag('enableDarkMode');
   const showBetaBanner = useFeatureFlag('showBetaBanner');
 
-  const [username, setUsername] = useState('admin_user');
-  const [emailNotify, setEmailNotify] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = () => {
+  const form = useForm<SettingsFormValues>({
+    mode: 'uncontrolled',
+    initialValues: {
+      username: 'admin_user',
+      emailNotify: true,
+    },
+    validate: {
+      username: (value) =>
+        value.trim().length < 3
+          ? 'Admin handle must be at least 3 characters'
+          : null,
+    },
+  });
+
+  const handleSave = useCallback((_values: SettingsFormValues) => {
     setIsSaving(true);
     setTimeout(() => setIsSaving(false), 800);
-  };
+  }, []);
 
   return (
     <PageContainer
@@ -68,27 +86,31 @@ export function Settings() {
         </Paper>
 
         <Paper withBorder p="md" radius="md">
-          <Stack gap="md">
-            <Title order={3}>Interactive Configuration Simulator</Title>
-            <Divider />
-            <TextInput
-              label="Simulation Admin Handle"
-              description="Change local administrator name for this session"
-              value={username}
-              onChange={(event) => setUsername(event.currentTarget.value)}
-            />
-            <Switch
-              label="Enable automated email dispatches"
-              description="Simulate email alerts toggle state for configuration overrides"
-              checked={emailNotify}
-              onChange={(event) => setEmailNotify(event.currentTarget.checked)}
-            />
-            <Group justify="flex-end" mt="md">
-              <Button onClick={handleSave} loading={isSaving}>
-                Apply Overrides
-              </Button>
-            </Group>
-          </Stack>
+          <form onSubmit={form.onSubmit(handleSave)}>
+            <Stack gap="md">
+              <Title order={3}>Interactive Configuration Simulator</Title>
+              <Divider />
+              <TextInput
+                withAsterisk
+                label="Simulation Admin Handle"
+                description="Change local administrator name for this session"
+                placeholder="Enter admin handle"
+                key={form.key('username')}
+                {...form.getInputProps('username')}
+              />
+              <Switch
+                label="Enable automated email dispatches"
+                description="Simulate email alerts toggle state for configuration overrides"
+                key={form.key('emailNotify')}
+                {...form.getInputProps('emailNotify', { type: 'checkbox' })}
+              />
+              <Group justify="flex-end" mt="md">
+                <Button type="submit" loading={isSaving}>
+                  Apply Overrides
+                </Button>
+              </Group>
+            </Stack>
+          </form>
         </Paper>
       </Stack>
     </PageContainer>
