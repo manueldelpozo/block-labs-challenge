@@ -30,6 +30,35 @@ export const TENANT_REGISTRY: Record<string, TenantConfig> = {
     logo: 'Block Labs',
     apiBase: 'https://api.blocklabs.default',
   },
+  'acme-corp': {
+    id: 'acme-corp',
+    name: 'Acme Corp',
+    theme: {
+      primaryColor: 'blue',
+      brandColors: [
+        '#eff6ff', // 0
+        '#dbeafe', // 1
+        '#bfdbfe', // 2
+        '#93c5fd', // 3
+        '#60a5fa', // 4
+        '#3b82f6', // 5
+        '#2563eb', // 6
+        '#1d4ed8', // 7
+        '#1e40af', // 8
+        '#1e3a8a', // 9
+      ],
+      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      borderRadius: 'md',
+    },
+    features: {
+      showAnalytics: true,
+      showSettings: true,
+      enableDarkMode: false,
+      showBetaBanner: false,
+    },
+    logo: 'Acme Corp',
+    apiBase: 'https://api.acmecorp.com',
+  },
   'block-partner': {
     id: 'block-partner',
     name: 'Partner Analytics Inc',

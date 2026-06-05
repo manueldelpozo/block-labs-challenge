@@ -148,11 +148,12 @@ If your tenant needs new feature flags not in the existing `FeatureFlags` interf
 
 4. Set the per-tenant override in the registry entry's `features` object.
 
-### Step 3 — Optional: tenant theme file
+### Step 3 — Create the per-tenant theme file
 
-Each tenant **can** have a dedicated theme file in `src/theme/tenants/{tenant-id}.ts` for cases where you need tenant-specific theme overrides beyond what `createTenantTheme` provides:
+Each tenant **must** have a dedicated theme file in `src/theme/tenants/{tenant-id}.ts`. This file registers the tenant in the `THEME_RESOLVERS` map inside `resolveTenantTheme()` and provides an extension point for tenant-specific theme overrides:
 
 ```typescript
+// src/theme/tenants/block-custom.ts
 import { getTenantConfig } from '@/config/tenant.config';
 import { createTenantTheme } from '../mantine-theme';
 
@@ -162,7 +163,10 @@ export function getBlockCustomTheme() {
 }
 ```
 
-> ⚠️ **Note:** These files are currently optional. `resolveTenantTheme()` in `theme/index.ts` calls `getTenantConfig` + `createTenantTheme` directly — it does not use these per-tenant wrappers. The wrapper exists for cases where you later need tenant-specific theme customization (e.g., adding tenant-specific CSS variables, component overrides).
+Then register it in `src/theme/index.ts`:
+1. Import the function
+2. Export it via `export * from './tenants/block-custom'`
+3. Add it to the `THEME_RESOLVERS` map
 
 ### Step 4 — Wire it up (automatic)
 
@@ -209,6 +213,7 @@ export function resolveTenantId(): string {
 | Test file | What to verify |
 |:--|:--|
 | `src/tests/useTenant.test.tsx` | Add a test that resolves the new tenant ID and asserts its config values |
+| `src/tests/theme.test.tsx` (create if absent) | Add a test verifying `resolveTenantTheme()` returns a valid theme for the new tenant |
 | `src/tests/Settings.test.tsx` | Optionally verify the new tenant's feature flag defaults render correctly |
 | `src/tests/Dashboard.test.tsx` | If the new tenant has different feature flags, verify the correct sections show |
 
@@ -231,6 +236,8 @@ it('resolves the new tenant config correctly', () => {
 ## 6. Quality Checklist
 
 - [ ] New tenant entry added to `TENANT_REGISTRY` with all required fields.
+- [ ] Per-tenant theme file created at `src/theme/tenants/{tenant-id}.ts` exporting a `get{Name}Theme()` function.
+- [ ] Theme file registered in `src/theme/index.ts` (import, re-export, and `THEME_RESOLVERS` entry).
 - [ ] `brandColors` array has exactly 10 hex values.
 - [ ] `primaryColor` matches the name of the 10-shade color being defined.
 - [ ] If new feature flags were added: they are in `FeatureFlags` interface, `DEFAULT_FEATURES`, and `mergeFeatures()`.

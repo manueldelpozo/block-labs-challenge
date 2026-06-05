@@ -24,3 +24,13 @@ class MockResizeObserver {
 }
 
 window.ResizeObserver = MockResizeObserver;
+
+// Mock document.fonts which is used by Mantine Textarea Autosize but not implemented in jsdom
+Object.defineProperty(document, 'fonts', {
+  writable: true,
+  value: {
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  },
+});
