@@ -11,7 +11,11 @@ function ThemeWrapper() {
   const theme = resolveTenantTheme(tenantId);
 
   return (
-    <MantineProvider theme={theme} cssVariablesResolver={cssVariablesResolver}>
+    <MantineProvider
+      theme={theme}
+      cssVariablesResolver={cssVariablesResolver}
+      defaultColorScheme="light"
+    >
       <RouterProvider router={router} />
     </MantineProvider>
   );
