@@ -17,6 +17,7 @@ Drafts accessible, presentational UI modules using Mantine component primitives.
 - Follow the [POJO as const](../pojo-as-const/SKILL.md) pattern when consuming option sets from shared constants (Select data, SegmentedControl data, badge colors, etc.).
 - For form validation patterns, see the [Form Validation](../hook-logic/SKILL.md#form-validation) guide in hook-logic.
 - Zero application logic, fetch statements, or route dependencies.
+- NEVER import hooks from `@/hooks/` inside a UI component. Hooks belong in the caller (layout or page). Pass data as props instead.
 - Colocate CSS Modules for unique class modifiers.
 - Implement full ARIA accessibility descriptors.
 

@@ -2,12 +2,14 @@ import { AppShell as MantineAppShell, Burger, Group, NavLink } from '@mantine/co
 import { useDisclosure } from '@mantine/hooks';
 import { Link, Outlet, useLocation } from 'react-router';
 import { TenantLogo } from '@/components/ui/TenantLogo';
+import { useTenant } from '@/hooks/useTenant';
 import { useFeatureFlag } from '@/hooks/useFeatureFlag';
 import classes from './AppShell.module.css';
 
 export function AppShell() {
   const [opened, { toggle, close }] = useDisclosure();
   const location = useLocation();
+  const { tenant } = useTenant();
   const showSettings = useFeatureFlag('showSettings');
 
   const navItems = [
@@ -30,7 +32,7 @@ export function AppShell() {
         <Group>
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           <Link to="/" className={classes.logoContainer}>
-            <TenantLogo />
+            <TenantLogo name={tenant.name} logo={tenant.logo} />
           </Link>
         </Group>
 
