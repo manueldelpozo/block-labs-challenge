@@ -14,5 +14,46 @@
         }
       }
     }
+  },
+  "agent": {
+    "ui-component": {
+      "description": "Builds stateless presentational UI components with Mantine",
+      "mode": "primary",
+      "prompt": "{file:./.claude/skills/ui-component/SKILL.md}"
+    },
+    "layout": {
+      "description": "Designs structural viewport envelopes, headers, sidebars, grids",
+      "mode": "primary",
+      "prompt": "{file:./.claude/skills/layout/SKILL.md}"
+    },
+    "page-composition": {
+      "description": "Assembles pages with Suspense, lazy loading, and router mappings",
+      "mode": "primary",
+      "prompt": "{file:./.claude/skills/page-composition/SKILL.md}"
+    },
+    "hook-logic": {
+      "description": "Manages contexts, custom hooks, state, and client APIs",
+      "mode": "primary",
+      "prompt": "{file:./.claude/skills/hook-logic/SKILL.md}"
+    },
+    "performance": {
+      "description": "Audits bundle size, re-renders, and Core Web Vitals",
+      "mode": "primary",
+      "prompt": "{file:./.claude/skills/performance/SKILL.md}"
+    },
+    "testing": {
+      "description": "Writes unit and integration tests with Vitest + Testing Library",
+      "mode": "primary",
+      "prompt": "{file:./.claude/skills/testing/SKILL.md}"
+    },
+    "architecture-guardian": {
+      "description": "Reviews boundary enforcement, type safety, and registry constraints",
+      "mode": "primary",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      },
+      "prompt": "{file:./.claude/skills/architecture-guardian/SKILL.md}"
+    }
   }
 }
