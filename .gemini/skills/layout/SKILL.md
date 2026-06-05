@@ -11,6 +11,7 @@ description: Structural grid, shell, responsive primitives
 Designs structural viewport envelopes, headers, sidebars, grids, and skeleton slots.
 
 ## Rules
+- Follow the TypeScript + React Patterns cheatsheet strictly (see [ts-react-patterns](../ts-react-patterns/SKILL.md)).
 - Do not handle data operations directly. Consume layout parameters and child outlets.
 - Ensure breakpoint layout responsiveness (320px to 1440px).
 

@@ -11,6 +11,7 @@ description: Stateless presentational units
 Drafts accessible, presentational UI modules using Mantine component primitives.
 
 ## Rules
+- Follow the TypeScript + React Patterns cheatsheet strictly (see [ts-react-patterns](../ts-react-patterns/SKILL.md)).
 - Zero application logic, fetch statements, or route dependencies.
 - Colocate CSS Modules for unique class modifiers.
 - Implement full ARIA accessibility descriptors.

@@ -11,6 +11,7 @@ description: Dynamic routing assembly and page controllers
 Composes layout envelopes, wraps child elements in Suspense states, and hooks business state logic to page renderers.
 
 ## Rules
+- Follow the TypeScript + React Patterns cheatsheet strictly (see [ts-react-patterns](../ts-react-patterns/SKILL.md)).
 - Build page elements at src/pages/ and router mappings at src/app/router.tsx.
 - Split pages with React.lazy dynamically.
 
