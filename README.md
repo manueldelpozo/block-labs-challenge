@@ -4,6 +4,20 @@
 
 A React SPA designed for the Block Labs code challenge: same codebase, multiple brands. Every tenant brings its own theme, feature flags, and API configuration — resolved from a URL query parameter with zero component changes.
 
+## Scope Control
+
+This challenge intentionally prioritizes:
+- Architecture clarity
+- Multi-tenant extensibility
+- Performance-aware defaults
+
+It intentionally defers:
+- SSR / RSC (documented trade-offs)
+- Module Federation runtime wiring
+- Real backend integration
+
+The goal is to demonstrate *how* the system scales, not to fully implement every scale concern.
+
 ---
 
 ## Tech Stack
