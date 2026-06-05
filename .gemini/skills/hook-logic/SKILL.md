@@ -34,6 +34,37 @@ Choose the simplest tool that fits the shape of the state:
 - **Complex forms** → Mantine's `useForm` (already available via `@mantine/form`)
 - **Do NOT add** Redux / RTK unless the app has dozens of state slices with cross-cutting middleware needs — it's over-engineering for this codebase.
 
+## Form Validation
+
+For this codebase, validation is simple enough that it doesn't need a dedicated library.
+Use the lightest option that fits:
+
+| Surface | Approach | Why |
+|---|---|---|
+| **1–3 fields, simple rules** | Inline checks in the submit handler | Zero overhead, trivially readable |
+| **Standard forms (profile, settings)** | Mantine's `useForm` from `@mantine/form` | Already installed, integrates with inputs via `form.getInputProps()`, supports per-field validation |
+| **Complex / nested forms** | `useForm` + Zod schema via `zodResolver` | Only add `zod` dependency when you need schema sharing, API response validation, or deeply nested form state |
+
+**Rule of thumb:** If an inline `if/return` check is shorter than importing and configuring a resolver, use the inline check. Add structure only when the form logic proves unwieldy.
+
+**Pattern — Mantine `useForm` with built-in validation:**
+
+```typescript
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+  initialValues: { name: '', email: '', bio: '' },
+  validate: {
+    email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    name: (value) => (value.trim().length >= 2 ? null : 'Too short'),
+  },
+});
+
+// In JSX — validation runs on submit, errors show automatically
+<TextInput label="Email" {...form.getInputProps('email')} />
+<Button onClick={() => form.onSubmit(handleSave)()}>Save</Button>
+```
+
 ## Testing
 - Test each hook in isolation using a wrapper component or `renderHook` from `@testing-library/react`.
 - Test context providers by rendering a child component that consumes the context and asserting the provided value.
