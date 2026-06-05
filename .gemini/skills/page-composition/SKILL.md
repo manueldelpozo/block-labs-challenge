@@ -18,6 +18,17 @@ Composes layout envelopes, wraps child elements in Suspense states, and hooks bu
 - Build page elements at src/pages/ and router mappings at src/app/router.tsx.
 - Split pages with React.lazy dynamically.
 
+## Feature Orchestration
+
+This agent acts as the feature-level integrator. When building a new feature (e.g. a page with data, navigation, and UI elements), verify that **all four layers** are covered:
+
+1. **Constants / Logic** — hooks, contexts, or config files under `src/hooks/`, `src/theme/`, or `src/config/`
+2. **UI Components** — presentational pieces under `src/components/ui/`
+3. **Layout** — navigation links, shell adjustments under `src/components/layout/`
+4. **Page + Route** — lazy-loaded page under `src/pages/` and route in `src/app/router.tsx`
+
+The other agents (hook-logic, ui-component, layout) handle their respective layers; this agent ensures no layer is forgotten and everything is wired together in the page and router.
+
 ## Testing
 - Write integration tests for each page that verify the full render flow (loading → data → display).
 - Mock hooks (`useData`, `useTenant`, `useFeatureFlag`) to control page state in tests.
