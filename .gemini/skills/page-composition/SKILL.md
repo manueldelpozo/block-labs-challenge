@@ -21,14 +21,15 @@ Composes layout envelopes, wraps child elements in Suspense states, and hooks bu
 
 ## Feature Orchestration
 
-This agent acts as the feature-level integrator. When building a new feature (e.g. a page with data, navigation, and UI elements), verify that **all four layers** are covered:
+This agent acts as the feature-level integrator. When building a new feature (e.g. a page with data, navigation, and UI elements), verify that **all five layers** are covered:
 
 1. **Constants / Logic** — hooks, contexts, or config files under `src/hooks/`, `src/theme/`, or `src/config/`
 2. **UI Components** — presentational pieces under `src/components/ui/`
 3. **Layout** — navigation links, shell adjustments under `src/components/layout/`
 4. **Page + Route** — lazy-loaded page under `src/pages/` and route in `src/app/router.tsx`
+5. **Tests** — unit tests for every new component and hook, plus an integration test for the page (see [Testing](#testing) section below)
 
-The other agents (hook-logic, ui-component, layout) handle their respective layers; this agent ensures no layer is forgotten and everything is wired together in the page and router.
+The other agents (hook-logic, ui-component, layout, testing) handle their respective layers; this agent ensures no layer is forgotten and everything is wired together in the page and router.
 
 ## Testing
 - Write integration tests for each page that verify the full render flow (loading → data → display).
@@ -46,5 +47,7 @@ The other agents (hook-logic, ui-component, layout) handle their respective laye
 - [ ] Pages are asynchronously lazy loaded in router profiles.
 - [ ] Error boundary covers major route branches.
 - [ ] Each page has an integration test covering loading, data, and error states.
+- [ ] Each new hook and UI component created for the feature has a corresponding test file.
 - [ ] Suspense fallback messages are contextual (not generic "Loading...").
 - [ ] Option sets used in the page are imported from shared constants, not defined inline.
+- [ ] Full test suite passes (`npm run test`).
