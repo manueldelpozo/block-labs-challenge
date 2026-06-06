@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 function Bomb({ shouldThrow = false }: { shouldThrow?: boolean }) {
   if (shouldThrow) {

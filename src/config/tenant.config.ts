@@ -1,10 +1,9 @@
-import type { CSSProperties } from 'react';
 import type { IFeatureFlags } from './features';
 
 export interface ITenantThemeConfig {
-  primaryColor: CSSProperties['backgroundColor'];
-  brandColors: CSSProperties['color'][];
-  fontFamily: CSSProperties['fontFamily'];
+  primaryColor: string;
+  brandColors: string[];
+  fontFamily: string;
   borderRadius: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
