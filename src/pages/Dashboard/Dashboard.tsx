@@ -6,7 +6,7 @@ import { useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useData } from '@/hooks/useData';
 import classes from './Dashboard.module.css';
 
-interface StatItem {
+interface IStatItem {
   label: string;
   value: string;
   trend: {
@@ -60,7 +60,7 @@ export function Dashboard() {
     };
   }, []);
 
-  const { data: stats, isLoading, error } = useData<StatItem[]>(statsFetcher);
+  const { data: stats, isLoading, error } = useData<IStatItem[]>(statsFetcher);
 
   return (
     <PageContainer

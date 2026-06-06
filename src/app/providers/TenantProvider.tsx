@@ -1,14 +1,14 @@
 import { createContext, useState, useEffect, type ReactNode } from 'react';
-import type { TenantConfig } from '@/types/tenant';
+import type { ITenantConfig } from '@/config/tenant.config';
 import { resolveTenantId, getTenantConfig } from '@/config/tenant.config';
 
-export interface TenantContextValue {
-  tenant: TenantConfig;
+export interface ITenantContextValue {
+  tenant: ITenantConfig;
   tenantId: string;
   isLoading: boolean;
 }
 
-export const TenantContext = createContext<TenantContextValue | null>(null);
+export const TenantContext = createContext<ITenantContextValue | null>(null);
 
 export function TenantProvider({ children }: { children: ReactNode }) {
   const [tenantId, setTenantId] = useState<string>('block-default');

@@ -1,6 +1,6 @@
 import { createTheme, type CSSVariablesResolver } from '@mantine/core';
 import { tokens } from './tokens';
-import type { TenantConfig } from '@/types/tenant';
+import type { ITenantConfig } from '@/config/tenant.config';
 
 export function createBaseTheme() {
   return createTheme({
@@ -27,7 +27,7 @@ export function createBaseTheme() {
   });
 }
 
-export function createTenantTheme(tenantConfig: TenantConfig) {
+export function createTenantTheme(tenantConfig: ITenantConfig) {
   const baseTheme = createBaseTheme();
 
   // Create a 10-shade tuple format required by Mantine

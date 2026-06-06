@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { FeatureFlagContext } from '@/app/providers/FeatureFlagProvider';
-import type { FeatureFlags } from '@/types/features';
+import type { IFeatureFlags } from '@/config/features';
 
-export function useFeatureFlag(flag: keyof FeatureFlags): boolean {
+export function useFeatureFlag(flag: keyof IFeatureFlags): boolean {
   const flags = useContext(FeatureFlagContext);
   if (!flags) {
     throw new Error('useFeatureFlag must be used within a FeatureFlagProvider');

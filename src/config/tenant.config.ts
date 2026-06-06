@@ -1,6 +1,23 @@
-import type { TenantConfig } from '@/types/tenant';
+import type { CSSProperties } from 'react';
+import type { IFeatureFlags } from './features';
 
-export const TENANT_REGISTRY: Record<string, TenantConfig> = {
+export interface ITenantThemeConfig {
+  primaryColor: CSSProperties['backgroundColor'];
+  brandColors: CSSProperties['color'][];
+  fontFamily: CSSProperties['fontFamily'];
+  borderRadius: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+}
+
+export interface ITenantConfig {
+  id: string;
+  name: string;
+  theme: ITenantThemeConfig;
+  features: IFeatureFlags;
+  logo: string;
+  apiBase: string;
+}
+
+export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
   'block-default': {
     id: 'block-default',
     name: 'Block Labs Default',
@@ -101,6 +118,6 @@ export function resolveTenantId(): string {
   return 'block-default';
 }
 
-export function getTenantConfig(tenantId: string): TenantConfig {
+export function getTenantConfig(tenantId: string): ITenantConfig {
   return TENANT_REGISTRY[tenantId] || TENANT_REGISTRY['block-default'];
 }

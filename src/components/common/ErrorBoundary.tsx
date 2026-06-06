@@ -1,23 +1,20 @@
 import { Component, type ReactNode, type ErrorInfo } from 'react';
 import { Center, Title, Text, Button, Paper, Stack } from '@mantine/core';
 
-interface Props {
+interface IErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
 }
 
-interface State {
+interface IErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false,
-    error: null,
-  };
+export class ErrorBoundary extends Component<IErrorBoundaryProps, IErrorBoundaryState> {
+  public state: IErrorBoundaryState = { hasError: false, error: null };
 
-  public static getDerivedStateFromError(error: Error): State {
+  public static getDerivedStateFromError(error: Error): IErrorBoundaryState {
     return { hasError: true, error };
   }
 

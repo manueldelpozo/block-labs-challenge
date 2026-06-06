@@ -1,7 +1,7 @@
 import { memo, type ReactNode } from 'react';
 import { Container, Title, Text, Stack } from '@mantine/core';
 
-interface PageContainerProps {
+interface IPageContainerProps {
   title: string;
   description?: string;
   children: ReactNode;
@@ -11,7 +11,7 @@ export const PageContainer = memo(function PageContainer({
   title,
   description,
   children,
-}: PageContainerProps) {
+}: IPageContainerProps) {
   return (
     <Container size="lg" py="xl">
       <Stack gap="xl">

@@ -27,17 +27,11 @@ describe('NotFound Page', () => {
 
   it('renders a descriptive message about the broken link', () => {
     renderNotFound();
-    expect(
-      screen.getByText(
-        /the link you followed may be broken/i,
-      ),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/the link you followed may be broken/i)).toBeInTheDocument();
   });
 
   it('renders a "Return to Dashboard" navigation button', () => {
     renderNotFound();
-    expect(
-      screen.getByRole('button', { name: /return to dashboard/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /return to dashboard/i })).toBeInTheDocument();
   });
 });

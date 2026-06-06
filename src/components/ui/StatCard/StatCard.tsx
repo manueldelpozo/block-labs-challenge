@@ -2,7 +2,7 @@ import { memo, type ReactNode } from 'react';
 import { Paper, Text, Group, ThemeIcon, Stack } from '@mantine/core';
 import classes from './StatCard.module.css';
 
-interface StatCardProps {
+interface IStatCardProps {
   label: string;
   value: string | number;
   trend?: {
@@ -12,7 +12,7 @@ interface StatCardProps {
   icon?: ReactNode;
 }
 
-export const StatCard = memo(function StatCard({ label, value, trend, icon }: StatCardProps) {
+export const StatCard = memo(function StatCard({ label, value, trend, icon }: IStatCardProps) {
   return (
     <Paper
       radius="md"

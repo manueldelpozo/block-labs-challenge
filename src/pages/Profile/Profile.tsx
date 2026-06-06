@@ -21,10 +21,10 @@ import {
   COLOR_SCHEME_OPTIONS_LIST,
   COLOR_SCHEME_BADGE_COLORS,
   COLOR_SCHEME_DISPLAY_LABELS,
-  type ColorSchemeValue,
+  type TColorSchemeValue,
 } from '@/theme/color-schemes';
 
-interface ProfileFormValues {
+interface IProfileFormValues {
   name: string;
   email: string;
   bio: string;
@@ -34,7 +34,7 @@ export function Profile() {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme(COLOR_SCHEME_OPTIONS.light.value);
 
-  const form = useForm<ProfileFormValues>({
+  const form = useForm<IProfileFormValues>({
     mode: 'uncontrolled',
     initialValues: {
       name: 'Jane Doe',
@@ -42,21 +42,16 @@ export function Profile() {
       bio: 'Frontend engineer exploring data analytics.',
     },
     validate: {
-      name: (value) =>
-        value.trim().length < 2 ? 'Name must be at least 2 characters' : null,
+      name: (value) => (value.trim().length < 2 ? 'Name must be at least 2 characters' : null),
       email: (value) =>
         /^\S+@\S+\.\S+$/.test(value) ? null : 'Please enter a valid email address',
-      bio: (value) =>
-        value.length > 200 ? 'Bio must be under 200 characters' : null,
+      bio: (value) => (value.length > 200 ? 'Bio must be under 200 characters' : null),
     },
   });
 
-  const handleSave = useCallback(
-    (values: ProfileFormValues) => {
-      console.log('Saved profile:', values);
-    },
-    [],
-  );
+  const handleSave = useCallback((values: IProfileFormValues) => {
+    console.log('Saved profile:', values);
+  }, []);
 
   return (
     <PageContainer
@@ -86,7 +81,7 @@ export function Profile() {
             </Text>
             <SegmentedControl
               value={computedColorScheme}
-              onChange={(value) => setColorScheme(value as ColorSchemeValue)}
+              onChange={(value) => setColorScheme(value as TColorSchemeValue)}
               data={COLOR_SCHEME_OPTIONS_LIST}
               fullWidth
             />

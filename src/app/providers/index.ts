@@ -1,2 +1,2 @@
-export { TenantContext, TenantProvider, type TenantContextValue } from './TenantProvider';
+export { TenantContext, TenantProvider, type ITenantContextValue } from './TenantProvider';
 export { FeatureFlagContext, FeatureFlagProvider } from './FeatureFlagProvider';

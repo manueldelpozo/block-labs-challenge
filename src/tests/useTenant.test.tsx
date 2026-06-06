@@ -33,7 +33,7 @@ describe('useTenant Hook', () => {
       <TenantProvider>{children}</TenantProvider>
     );
 
-    const { result } = renderHook(() => useTenant(), { wrapper });
+    renderHook(() => useTenant(), { wrapper });
 
     // All tenants are available; verify the registry entry is well-formed
     const acmeConfig = getTenantConfig('acme-corp');

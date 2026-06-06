@@ -16,7 +16,7 @@ import { PageContainer } from '@/components/layout/PageContainer';
 import { useTenant } from '@/hooks/useTenant';
 import { useFeatureFlag } from '@/hooks/useFeatureFlag';
 
-interface SettingsFormValues {
+interface ISettingsFormValues {
   username: string;
   emailNotify: boolean;
 }
@@ -29,7 +29,7 @@ export function Settings() {
 
   const [isSaving, setIsSaving] = useState(false);
 
-  const form = useForm<SettingsFormValues>({
+  const form = useForm<ISettingsFormValues>({
     mode: 'uncontrolled',
     initialValues: {
       username: 'admin_user',
@@ -37,13 +37,11 @@ export function Settings() {
     },
     validate: {
       username: (value) =>
-        value.trim().length < 3
-          ? 'Admin handle must be at least 3 characters'
-          : null,
+        value.trim().length < 3 ? 'Admin handle must be at least 3 characters' : null,
     },
   });
 
-  const handleSave = useCallback((_values: SettingsFormValues) => {
+  const handleSave = useCallback((_values: ISettingsFormValues) => {
     setIsSaving(true);
     setTimeout(() => setIsSaving(false), 800);
   }, []);

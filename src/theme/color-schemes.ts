@@ -18,11 +18,10 @@ export const COLOR_SCHEME_OPTIONS = {
 /* ── Derived types ─────────────────────────────────────── */
 
 /** Union of object keys: `'light' | 'dark' | 'auto'` */
-export type ColorSchemeKey = keyof typeof COLOR_SCHEME_OPTIONS;
+export type TColorSchemeKey = keyof typeof COLOR_SCHEME_OPTIONS;
 
 /** Union of the `value` fields — derived, so always in sync */
-export type ColorSchemeValue =
-  (typeof COLOR_SCHEME_OPTIONS)[ColorSchemeKey]['value'];
+export type TColorSchemeValue = (typeof COLOR_SCHEME_OPTIONS)[TColorSchemeKey]['value'];
 
 /* ── Reusable data arrays ──────────────────────────────── */
 
@@ -30,9 +29,7 @@ export type ColorSchemeValue =
 export const COLOR_SCHEME_OPTIONS_LIST = Object.values(COLOR_SCHEME_OPTIONS);
 
 /** Flat value strings, e.g. for iterating or validation */
-export const COLOR_SCHEME_VALUES = COLOR_SCHEME_OPTIONS_LIST.map(
-  (o) => o.value,
-);
+export const COLOR_SCHEME_VALUES = COLOR_SCHEME_OPTIONS_LIST.map((o) => o.value);
 
 /* ── Display helpers (keyed by resolved light/dark) ────── */
 

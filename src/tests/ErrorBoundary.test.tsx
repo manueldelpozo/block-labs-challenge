@@ -12,7 +12,11 @@ function Bomb({ shouldThrow = false }: { shouldThrow?: boolean }) {
 
 describe('ErrorBoundary', () => {
   const renderWithBoundary = (ui: React.ReactElement) => {
-    return render(<MantineProvider><ErrorBoundary>{ui}</ErrorBoundary></MantineProvider>);
+    return render(
+      <MantineProvider>
+        <ErrorBoundary>{ui}</ErrorBoundary>
+      </MantineProvider>,
+    );
   };
 
   beforeEach(() => {

@@ -1,13 +1,13 @@
 import { memo } from 'react';
 import { Group, Text, ThemeIcon } from '@mantine/core';
 
-export interface TenantLogoProps {
+export interface ITenantLogoProps {
   name: string;
   logo: string;
   size?: number;
 }
 
-export const TenantLogo = memo(function TenantLogo({ name, logo, size = 28 }: TenantLogoProps) {
+export const TenantLogo = memo(function TenantLogo({ name, logo, size = 28 }: ITenantLogoProps) {
   const firstLetter = name ? name.charAt(0) : 'B';
 
   return (

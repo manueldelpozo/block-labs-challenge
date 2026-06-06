@@ -79,8 +79,6 @@ describe('Settings Page Integration', () => {
     const submitBtn = screen.getByRole('button', { name: /apply overrides/i });
     await user.click(submitBtn);
 
-    expect(
-      screen.getByText(/admin handle must be at least 3 characters/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/admin handle must be at least 3 characters/i)).toBeInTheDocument();
   });
 });
