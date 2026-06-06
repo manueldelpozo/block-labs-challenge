@@ -345,7 +345,49 @@ interface IProps {
 
 ---
 
-## 8. Quick Dos & Don'ts
+## 8. Naming Conventions
+
+### I-prefix for interfaces, T-prefix for type aliases
+
+Enforced by `@typescript-eslint/naming-convention` in `.eslintrc.cjs`:
+
+```typescript
+// ✅ Interfaces — I prefix
+interface IUserProfile { name: string; email: string; }
+interface IMyComponentProps { message: string; }
+
+// ❌ Interfaces without I prefix — ESLint error
+interface UserProfile { name: string; email: string; }
+
+// ✅ Type aliases — T prefix
+type TColorSchemeKey = keyof typeof COLOR_SCHEME_OPTIONS;
+type TStatus = 'idle' | 'loading' | 'success';
+
+// ❌ Type aliases without T prefix — ESLint error
+type ColorSchemeKey = 'light' | 'dark';
+```
+
+**Why?** Prefixes make it immediately clear at the call site whether something is a type or a value — no need to hover in your editor. This is especially valuable in code review diffs and when scrolling through unfamiliar files.
+
+### Types live near their constants
+
+Define types in the same file as the constant they describe, not in a separate `src/types/` directory:
+
+```typescript
+// ✅ src/config/features.ts — type co-located with its constant
+export interface IFeatureFlags { showAnalytics: boolean; ... }
+export const DEFAULT_FEATURES: IFeatureFlags = { ... };
+
+// ✅ src/config/tenant.config.ts — type co-located with its registry
+export interface ITenantConfig { id: string; name: string; ... }
+export const TENANT_REGISTRY: Record<string, ITenantConfig> = { ... };
+```
+
+**Exception:** Types that describe the *relationship between* multiple constants, or types consumed by many independent modules, may still live in a shared location. Use judgment.
+
+---
+
+## 9. Quick Dos & Don'ts
 
 | ✅ DO | ❌ DON'T |
 |---|---|

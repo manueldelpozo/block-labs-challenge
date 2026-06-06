@@ -27,6 +27,19 @@ module.exports = {
       'error',
       { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
     ],
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'interface',
+        format: ['PascalCase'],
+        prefix: ['I'],
+      },
+      {
+        selector: 'typeAlias',
+        format: ['PascalCase'],
+        prefix: ['T'],
+      },
+    ],
   },
   settings: {
     react: {

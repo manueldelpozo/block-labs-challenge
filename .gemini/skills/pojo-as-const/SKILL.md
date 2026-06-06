@@ -43,10 +43,10 @@ export const MY_OPTIONS = {
 // ──────────────────────────────────────
 
 /** Union of object keys: `'foo' | 'bar'` */
-export type MyKey = keyof typeof MY_OPTIONS;
+export type TMyKey = keyof typeof MY_OPTIONS;
 
 /** Union of `value` fields: `'foo' | 'bar'` */
-export type MyValue = (typeof MY_OPTIONS)[MyKey]['value'];
+export type TMyValue = (typeof MY_OPTIONS)[TMyKey]['value'];
 
 
 // ──────────────────────────────────────
@@ -84,8 +84,8 @@ export const MY_DISPLAY_LABELS = {
 | Export | Pattern | Example |
 |---|---|---|
 | Source object | `UPPER_CASE` | `COLOR_SCHEME_OPTIONS` |
-| Key type | `PascalCase + Key` | `ColorSchemeKey` |
-| Value type | `PascalCase + Value` | `ColorSchemeValue` |
+| Key type | `T + PascalCase + Key` | `TColorSchemeKey` |
+| Value type | `T + PascalCase + Value` | `TColorSchemeValue` |
 | Option list (array) | `SOURCE + _LIST` | `COLOR_SCHEME_OPTIONS_LIST` |
 | Value array | `SOURCE + _VALUES` | `COLOR_SCHEME_VALUES` |
 | Badge/color map | `SOURCE + _BADGE_COLORS` | `COLOR_SCHEME_BADGE_COLORS` |
@@ -133,9 +133,9 @@ const current = computedValue;                // 'foo' | 'bar'
 ### Type-safe values
 
 ```tsx
-import { type MyValue } from '@/path/to/options';
+import { type TMyValue } from '@/path/to/options';
 
-function handleChange(value: MyValue) { … }
+function handleChange(value: TMyValue) { … }
 // value is 'foo' | 'bar' — autocompleted by TS
 ```
 
@@ -171,8 +171,8 @@ export const COLOR_SCHEME_OPTIONS = {
   auto:  { label: '🖥️  Auto', value: 'auto' },
 } as const;
 
-export type ColorSchemeKey   = keyof typeof COLOR_SCHEME_OPTIONS;
-export type ColorSchemeValue = (typeof COLOR_SCHEME_OPTIONS)[ColorSchemeKey]['value'];
+export type TColorSchemeKey   = keyof typeof COLOR_SCHEME_OPTIONS;
+export type TColorSchemeValue = (typeof COLOR_SCHEME_OPTIONS)[TColorSchemeKey]['value'];
 
 export const COLOR_SCHEME_OPTIONS_LIST = Object.values(COLOR_SCHEME_OPTIONS);
 export const COLOR_SCHEME_VALUES = COLOR_SCHEME_OPTIONS_LIST.map((o) => o.value);
@@ -197,7 +197,7 @@ import {
   COLOR_SCHEME_OPTIONS_LIST,
   COLOR_SCHEME_BADGE_COLORS,
   COLOR_SCHEME_DISPLAY_LABELS,
-  type ColorSchemeValue,
+  type TColorSchemeValue,
 } from '@/theme/color-schemes';
 
 // UI data array
@@ -209,7 +209,7 @@ import {
 </Badge>
 
 // Type-safe setter
-setColorScheme(value as ColorSchemeValue);
+setColorScheme(value as TColorSchemeValue);
 ```
 
 ---

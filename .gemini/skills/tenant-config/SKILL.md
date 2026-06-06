@@ -16,10 +16,8 @@ Manages the multi-tenant architecture: tenant identity, per-tenant theme tokens,
 ## 1. Architecture Overview
 
 ```
-src/config/tenant.config.ts    ← Central TENANT_REGISTRY (single source of truth)
-src/types/tenant.ts             ← TenantConfig / TenantThemeConfig interfaces
-src/types/features.ts           ← FeatureFlags interface
-src/config/features.ts          ← DEFAULT_FEATURES + mergeFeatures()
+src/config/tenant.config.ts    ← Central TENANT_REGISTRY + ITenantConfig / ITenantThemeConfig
+src/config/features.ts          ← DEFAULT_FEATURES + IFeatureFlags + mergeFeatures()
 src/theme/mantine-theme.ts      ← createTenantTheme() — transforms config → Mantine theme
 src/theme/index.ts              ← resolveTenantTheme() — public API
 src/app/providers/TenantProvider.tsx  ← React context provider
@@ -47,14 +45,16 @@ getTenantConfig('block-partner')  →  TenantConfig object
 The registry in `src/config/tenant.config.ts` follows the **POJO as const** ethos (see [pojo-as-const](../pojo-as-const/SKILL.md)) — a single source of truth from which everything else is derived.
 
 ```typescript
-// src/config/tenant.config.ts
-export const TENANT_REGISTRY: Record<string, TenantConfig> = {
+// src/config/tenant.config.ts — type co-located with its registry
+export interface ITenantConfig { /* … */ }
+
+export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
   'block-default': { /* … */ },
   'block-partner': { /* … */ },
 };
 ```
 
-### TenantConfig shape (`src/types/tenant.ts`)
+### ITenantConfig shape (defined in `src/config/tenant.config.ts`)
 
 | Field | Type | Purpose |
 |:--|:--|:--|
@@ -116,11 +116,11 @@ Add a new entry to `TENANT_REGISTRY` in `src/config/tenant.config.ts`:
 
 ### Step 2 — Add feature flags (if needed)
 
-If your tenant needs new feature flags not in the existing `FeatureFlags` interface:
+If your tenant needs new feature flags not in the existing `IFeatureFlags` interface:
 
-1. Add the flag to `src/types/features.ts`:
+1. Add the flag to the interface in `src/config/features.ts`:
    ```typescript
-   export interface FeatureFlags {
+   export interface IFeatureFlags {
      showAnalytics: boolean;
      showSettings: boolean;
      enableDarkMode: boolean;
@@ -131,7 +131,7 @@ If your tenant needs new feature flags not in the existing `FeatureFlags` interf
 
 2. Set its default in `src/config/features.ts`:
    ```typescript
-   export const DEFAULT_FEATURES: FeatureFlags = {
+   export const DEFAULT_FEATURES: IFeatureFlags = {
      showAnalytics: true,
      showSettings: true,
      enableDarkMode: true,
@@ -240,8 +240,9 @@ it('resolves the new tenant config correctly', () => {
 - [ ] Theme file registered in `src/theme/index.ts` (import, re-export, and `THEME_RESOLVERS` entry).
 - [ ] `brandColors` array has exactly 10 hex values.
 - [ ] `primaryColor` matches the name of the 10-shade color being defined.
-- [ ] If new feature flags were added: they are in `FeatureFlags` interface, `DEFAULT_FEATURES`, and `mergeFeatures()`.
+- [ ] If new feature flags were added: they are in `IFeatureFlags` interface, `DEFAULT_FEATURES`, and `mergeFeatures()`.
 - [ ] Tenant can be activated via `?tenant={id}` query parameter.
 - [ ] Fallback to `block-default` works when no/invalid tenant is specified.
 - [ ] Tests updated (`useTenant.test.tsx`, and any page tests affected by flag changes).
+- [ ] Interfaces use `I` prefix (`IFeatureFlags`, `ITenantConfig`), types use `T` prefix (`TColorSchemeKey`).
 - [ ] `npm run test` passes.
