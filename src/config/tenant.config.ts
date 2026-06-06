@@ -47,64 +47,6 @@ export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
     logo: 'Block Labs',
     apiBase: 'https://api.blocklabs.default',
   },
-  'acme-corp': {
-    id: 'acme-corp',
-    name: 'Acme Corp',
-    theme: {
-      primaryColor: 'blue',
-      brandColors: [
-        '#eff6ff', // 0
-        '#dbeafe', // 1
-        '#bfdbfe', // 2
-        '#93c5fd', // 3
-        '#60a5fa', // 4
-        '#3b82f6', // 5
-        '#2563eb', // 6
-        '#1d4ed8', // 7
-        '#1e40af', // 8
-        '#1e3a8a', // 9
-      ],
-      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      borderRadius: 'md',
-    },
-    features: {
-      showAnalytics: true,
-      showSettings: true,
-      enableDarkMode: false,
-      showBetaBanner: false,
-    },
-    logo: 'Acme Corp',
-    apiBase: 'https://api.acmecorp.com',
-  },
-  'block-partner': {
-    id: 'block-partner',
-    name: 'Partner Analytics Inc',
-    theme: {
-      primaryColor: 'emerald',
-      brandColors: [
-        '#ecfdf5', // 0
-        '#d1fae5', // 1
-        '#a7f3d0', // 2
-        '#6ee7b7', // 3
-        '#34d399', // 4
-        '#10b981', // 5
-        '#059669', // 6
-        '#047857', // 7
-        '#065f46', // 8
-        '#022c22', // 9
-      ],
-      fontFamily: 'Outfit, Inter, sans-serif',
-      borderRadius: 'lg',
-    },
-    features: {
-      showAnalytics: false,
-      showSettings: true,
-      enableDarkMode: false,
-      showBetaBanner: true,
-    },
-    logo: 'Partner Analytics',
-    apiBase: 'https://api.partneranalytics.com',
-  },
 };
 
 export function resolveTenantId(): string {

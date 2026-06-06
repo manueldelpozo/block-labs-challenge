@@ -38,11 +38,11 @@ The goal is to demonstrate *how* the system scales, not to fully implement every
 ## Multi-Tenant Architecture
 
 ```
-URL ?tenant=acme-corp
+URL ?tenant=block-default
        ↓
 TenantProvider (reads query param via resolveTenantId)
        ↓
-getTenantConfig('acme-corp')  →  TenantConfig object
+getTenantConfig('block-default')  →  TenantConfig object
        ↓                       ↓
   createTenantTheme(...)    FeatureFlagProvider.mergeFeatures(...)
        ↓                       ↓
@@ -74,13 +74,11 @@ Single source of truth. Each tenant defines:
 }
 ```
 
-**3 registered tenants:**
+**1 registered tenant:**
 
 | Tenant | Slug | Theme | Analytics |
 |--------|------|-------|-----------|
 | Block Labs Default | `?tenant=block-default` | Indigo | ✅ |
-| Acme Corp | `?tenant=acme-corp` | Blue | ✅ |
-| Partner Analytics | `?tenant=block-partner` | Emerald | ❌ |
 
 New tenants require: registry entry + theme file + registration in `THEME_RESOLVERS`. No component code changes.
 
@@ -258,8 +256,6 @@ npm run lint         # ESLint + Prettier
 Switch tenants by adding `?tenant=` to the URL:
 
 - `http://localhost:5173/?tenant=block-default`
-- `http://localhost:5173/?tenant=acme-corp`
-- `http://localhost:5173/?tenant=block-partner`
 
 ---
 

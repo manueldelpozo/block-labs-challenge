@@ -74,8 +74,8 @@ export function Dashboard() {
           variant="light"
           className={classes.betaBanner}
         >
-          You are currently previewing the Partner Analytics interface layout. Certain advanced
-          reports are under development.
+          You are currently previewing a beta interface layout. Certain advanced reports are under
+          development.
         </Alert>
       )}
 

@@ -22,7 +22,7 @@ Multi-tenant React SPA. Same codebase, different brands. See [CLAUDE.md](./CLAUD
 ## Next steps (given more time)
 
 1. **Dark mode** — `enableDarkMode` flag exists in `FeatureFlags` but the toggle UI doesn't. Add a `ColorSchemeToggle` component that reads `useMantineColorScheme()`.
-2. **Tenant sandbox** — A `/sandbox?tenant=acme-corp` dev route to preview any tenant without changing the URL query param.
+2. **Tenant sandbox** — A `/sandbox?tenant=block-custom` dev route to preview any tenant without changing the URL query param.
 3. **API integration** — Replace `useData`'s mock resolver with real `fetch` calls to `tenant.apiBase`. Add error retry and request deduplication.
 4. **Accessibility audit** — Run axe-core on every page. Current components have basic ARIA but no full keyboard-nav audit.
 5. **Build-time tenant injection** — Move `TENANT_REGISTRY` to a Vite env variable so each tenant deployment bundles only its own config.

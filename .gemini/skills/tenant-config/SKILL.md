@@ -27,11 +27,11 @@ src/hooks/useTenant.ts          ← useTenant() hook
 **Data flow:**
 
 ```
-URL ?tenant=block-partner
+URL ?tenant=block-custom
        ↓
 TenantProvider (reads query param via resolveTenantId)
        ↓
-getTenantConfig('block-partner')  →  TenantConfig object
+getTenantConfig('block-custom')  →  TenantConfig object
        ↓                       ↓
   createTenantTheme(...)    FeatureFlagProvider.mergeFeatures(...)
        ↓                       ↓
@@ -50,7 +50,7 @@ export interface ITenantConfig { /* … */ }
 
 export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
   'block-default': { /* … */ },
-  'block-partner': { /* … */ },
+  'block-custom': { /* … */ },
 };
 ```
 
@@ -210,7 +210,7 @@ export function resolveTenantId(): string {
 
 Theme tokens handle colors, fonts, and spacing. But some tenants need structurally different components — a different checkout flow, a different nav layout, a different data table.
 
-**Do not** add `if (tenant === 'acme-corp')` branching inside shared components. That leaks tenant logic into the UI layer and makes the codebase untestable with every new tenant.
+**Do not** add `if (tenant === 'block-custom')` branching inside shared components. That leaks tenant logic into the UI layer and makes the codebase untestable with every new tenant.
 
 Instead, use a **component variants** pattern:
 
@@ -235,10 +235,10 @@ export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
       NavHeader: 'default',
     },
   },
-  'acme-corp': {
+  'block-custom': {
     // ...
     componentVariants: {
-      CheckoutButton: 'acme-corp',
+      CheckoutButton: 'block-custom',
     },
   },
 };
@@ -257,19 +257,19 @@ import { CheckoutButton as DefaultCheckoutButton } from '@/components/ui/Checkou
 import { NavHeader as DefaultNavHeader } from '@/components/layout/NavHeader';
 
 // Tenant-specific variants
-import { CheckoutButton as AcmeCheckoutButton } from '@/components/variants/acme-corp/CheckoutButton';
-import { NavHeader as PartnerNavHeader } from '@/components/variants/block-partner/NavHeader';
+import { CheckoutButton as CustomCheckoutButton } from '@/components/variants/block-custom/CheckoutButton';
+import { NavHeader as CustomNavHeader } from '@/components/variants/block-custom/NavHeader';
 
 type VariantRegistry = Record<string, Record<string, ComponentType>>;
 
 export const VARIANT_REGISTRY: VariantRegistry = {
   CheckoutButton: {
     default: DefaultCheckoutButton,
-    'acme-corp': AcmeCheckoutButton,
+    'block-custom': CustomCheckoutButton,
   },
   NavHeader: {
     default: DefaultNavHeader,
-    'block-partner': PartnerNavHeader,
+    'block-custom': CustomNavHeader,
   },
 };
 ```
@@ -310,7 +310,7 @@ function CheckoutPage() {
 
 ### Not implemented yet
 
-This pattern is **documented but not wired** in the current codebase. The 3 tenants at this scale are fully served by theme tokens + feature flags. Implement this when a tenant needs structural component divergence.
+This pattern is **documented but not wired** in the current codebase. The single tenant at this scale is fully served by theme tokens + feature flags. Implement this when a tenant needs structural component divergence.
 
 ---
 
@@ -330,12 +330,10 @@ This pattern is **documented but not wired** in the current codebase. The 3 tena
 ```typescript
 // useTenant.test.tsx — add a block like:
 it('resolves the new tenant config correctly', () => {
-  const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <TenantProvider>{children}</TenantProvider>
-  );
-  const { result } = renderHook(() => useTenant(), { wrapper });
-  expect(result.current.tenant.name).toBe('Custom Corp');
-  expect(result.current.tenant.apiBase).toBe('https://api.customcorp.com');
+  const config = getTenantConfig('block-custom');
+
+  expect(config.name).toBe('Custom Corp');
+  expect(config.apiBase).toBe('https://api.customcorp.com');
 });
 ```
 

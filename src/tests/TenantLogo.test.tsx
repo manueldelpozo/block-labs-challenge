@@ -7,19 +7,19 @@ describe('TenantLogo', () => {
   it('renders the first letter of the tenant name as an icon', () => {
     render(
       <MantineProvider>
-        <TenantLogo name="Acme Corp" logo="Acme Corp" />
+        <TenantLogo name="Test Brand" logo="Test Brand" />
       </MantineProvider>,
     );
-    expect(screen.getByText('A')).toBeInTheDocument();
+    expect(screen.getByText('T')).toBeInTheDocument();
   });
 
   it('renders the tenant logo display text', () => {
     render(
       <MantineProvider>
-        <TenantLogo name="Acme Corp" logo="ACME" />
+        <TenantLogo name="Test Brand" logo="TEST" />
       </MantineProvider>,
     );
-    expect(screen.getByText('ACME')).toBeInTheDocument();
+    expect(screen.getByText('TEST')).toBeInTheDocument();
   });
 
   it('falls back to "B" when name is empty', () => {
