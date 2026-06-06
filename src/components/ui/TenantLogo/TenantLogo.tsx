@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { Group, Text, ThemeIcon } from '@mantine/core';
 
 export interface ITenantLogoProps {
@@ -7,7 +6,7 @@ export interface ITenantLogoProps {
   size?: number;
 }
 
-export const TenantLogo = memo(function TenantLogo({ name, logo, size = 28 }: ITenantLogoProps) {
+export function TenantLogo({ name, logo, size = 28 }: ITenantLogoProps) {
   const firstLetter = name ? name.charAt(0) : 'B';
 
   return (
@@ -20,4 +19,4 @@ export const TenantLogo = memo(function TenantLogo({ name, logo, size = 28 }: IT
       </Text>
     </Group>
   );
-});
+}

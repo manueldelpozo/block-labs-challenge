@@ -1,13 +1,10 @@
-import { memo } from 'react';
 import { Center, Loader, Text, Stack } from '@mantine/core';
 
 interface ILoadingFallbackProps {
   message?: string;
 }
 
-export const LoadingFallback = memo(function LoadingFallback({
-  message = 'Loading page content...',
-}: ILoadingFallbackProps) {
+export function LoadingFallback({ message = 'Loading page content...' }: ILoadingFallbackProps) {
   return (
     <Center style={{ minHeight: '50vh', width: '100%' }}>
       <Stack align="center" gap="xs">
@@ -20,4 +17,4 @@ export const LoadingFallback = memo(function LoadingFallback({
       </Stack>
     </Center>
   );
-});
+}
