@@ -206,7 +206,115 @@ export function resolveTenantId(): string {
 
 ---
 
-## 5. Testing
+## 5. Component Variants — When Theme Tokens Aren't Enough
+
+Theme tokens handle colors, fonts, and spacing. But some tenants need structurally different components — a different checkout flow, a different nav layout, a different data table.
+
+**Do not** add `if (tenant === 'acme-corp')` branching inside shared components. That leaks tenant logic into the UI layer and makes the codebase untestable with every new tenant.
+
+Instead, use a **component variants** pattern:
+
+### Step 1 — Add a `componentVariants` field to the tenant config
+
+```typescript
+export interface ITenantConfig {
+  id: string;
+  name: string;
+  theme: ITenantThemeConfig;
+  features: IFeatureFlags;
+  logo: string;
+  apiBase: string;
+  componentVariants?: Record<string, string>;  // ← added
+}
+
+export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
+  'block-default': {
+    // ...
+    componentVariants: {
+      CheckoutButton: 'default',
+      NavHeader: 'default',
+    },
+  },
+  'acme-corp': {
+    // ...
+    componentVariants: {
+      CheckoutButton: 'acme-corp',
+    },
+  },
+};
+```
+
+### Step 2 — Register variant implementations
+
+Create a registry that maps component name + variant → the actual component:
+
+```typescript
+// src/config/variant-registry.ts
+import type { ComponentType } from 'react';
+
+// Default variants
+import { CheckoutButton as DefaultCheckoutButton } from '@/components/ui/CheckoutButton';
+import { NavHeader as DefaultNavHeader } from '@/components/layout/NavHeader';
+
+// Tenant-specific variants
+import { CheckoutButton as AcmeCheckoutButton } from '@/components/variants/acme-corp/CheckoutButton';
+import { NavHeader as PartnerNavHeader } from '@/components/variants/block-partner/NavHeader';
+
+type VariantRegistry = Record<string, Record<string, ComponentType>>;
+
+export const VARIANT_REGISTRY: VariantRegistry = {
+  CheckoutButton: {
+    default: DefaultCheckoutButton,
+    'acme-corp': AcmeCheckoutButton,
+  },
+  NavHeader: {
+    default: DefaultNavHeader,
+    'block-partner': PartnerNavHeader,
+  },
+};
+```
+
+### Step 3 — Resolve at the call site
+
+```typescript
+import { getTenantConfig } from '@/config/tenant.config';
+import { VARIANT_REGISTRY } from '@/config/variant-registry';
+import { useTenant } from '@/hooks/useTenant';
+
+function resolveComponent<T>(name: string, tenantConfig: ITenantConfig): T {
+  const variant = tenantConfig.componentVariants?.[name] ?? 'default';
+  return VARIANT_REGISTRY[name]?.[variant] as T;
+}
+
+// Usage in a page or layout
+function CheckoutPage() {
+  const { tenant } = useTenant();
+  const CheckoutButton = resolveComponent<ComponentType<ButtonProps>>(
+    'CheckoutButton',
+    tenant,
+  );
+
+  return <CheckoutButton onClick={...} />;
+}
+```
+
+### When to use this pattern
+
+| ✅ Use component variants | ❌ Theme tokens are enough |
+|---------------------------|---------------------------|
+| Tenant needs different component structure (multi-step vs single-page checkout) | Tenant needs different colors, fonts, border radius |
+| Tenant needs different layout composition (sidebar vs top-nav) | Tenant needs different spacing or breakpoints |
+| Tenant adds or removes fields from a form | Tenant toggles feature sections on/off via feature flags |
+
+**Key constraint:** Variant components live in `src/components/variants/{tenant-id}/`, not in `src/components/ui/`. This keeps tenant-specific code physically separate from the shared component library.
+
+### Not implemented yet
+
+This pattern is **documented but not wired** in the current codebase. The 3 tenants at this scale are fully served by theme tokens + feature flags. Implement this when a tenant needs structural component divergence.
+
+---
+
+## 6. Testing
 
 ### When adding a new tenant, update these tests:
 
@@ -233,7 +341,7 @@ it('resolves the new tenant config correctly', () => {
 
 ---
 
-## 6. Quality Checklist
+## 7. Quality Checklist
 
 - [ ] New tenant entry added to `TENANT_REGISTRY` with all required fields.
 - [ ] Per-tenant theme file created at `src/theme/tenants/{tenant-id}.ts` exporting a `get{Name}Theme()` function.
