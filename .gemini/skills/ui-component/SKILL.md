@@ -29,13 +29,13 @@ Drafts accessible, presentational UI modules using Mantine component primitives.
 - Follow the Testing Library guiding principle: test behavior, not implementation.
 
 ## Performance
-- Wrap components in `React.memo` to prevent unnecessary re-renders.
-- Avoid inline object/function expressions in props that cross the memo boundary.
+- **Don't reach for `React.memo` by default.** Add memo only when you've measured a re-render bottleneck (e.g., a component re-renders frequently despite unchanged props). For leaf components that render once per route, the comparison cost often exceeds the render cost.
+- If you do add `React.memo`, ensure props are stable (no inline objects/functions crossing the memo boundary).
 - Keep CSS Modules lean — avoid unused class selectors.
 - Import only the Mantine components needed, not the entire library.
 
 ## Quality Checklist
-- [ ] Component is memoized using React.memo.
+- [ ] If `React.memo` is used, there is a measured reason (not defensive-default).
 - [ ] Component has a corresponding `.test.tsx` file with render + interaction tests.
 - [ ] Component styling is done exclusively through CSS modules or Mantine props.
 - [ ] Component does not access global react-router state.

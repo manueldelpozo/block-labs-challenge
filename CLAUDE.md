@@ -21,8 +21,9 @@ graph TD
     HA --> |Tested by| QA
     UI --> |Tested by| QA
 
-    PERF[Performance Agent] --> |Audits CSS/Memoization| UI
-    PERF --> |Audits Splitting/LCP| PA
+    PERF[Performance Agent] --> |Audits memo decisions| UI
+    PERF --> |Audits chunks + Suspense| PA
+    PERF --> |Audits useMemo/useCallback| HA
 ```
 
 | Agent | Focus | Ownership |
@@ -31,7 +32,7 @@ graph TD
 | **Layout Agent** | Structural grid, shell, responsive primitives | `src/components/layout/**/*.tsx`, `*.module.css` |
 | **Page Composition Agent** | Dynamic routing assembly and page controllers | `src/pages/**/*.tsx`, `src/app/router.tsx` |
 | **Hook / Logic Agent** | Side effects, context states, client APIs | `src/hooks/**/*.ts`, `src/app/providers/**/*.tsx` |
-| **Performance Agent** | Bundle efficiency, render loops, metrics | Audits codebase; adjusts `vite.config.ts`, React.memo, Suspense |
+| **Performance Agent** | Bundle efficiency, render optimization, React 19 compiler awareness | Audits codebase; owns all memo/useMemo/useCallback decisions, vendor chunking, route-splitting |
 | **Testing Agent** | Behavior verification and coverage | `src/tests/**/*.test.tsx`, `src/tests/setup.ts` |
 | **Architecture Guardian** | Registry constraints, boundary linting | Review agent; approves merge requests and refactor actions |
 
@@ -48,9 +49,10 @@ graph TD
 - Zero application logic, fetch statements, or route dependencies.
 - Colocate CSS Modules for unique class modifiers.
 - Implement full ARIA accessibility descriptors.
+- Performance decisions (memo, useMemo, useCallback) are owned by the Performance Agent — see [performance/SKILL.md](./.claude/skills/performance/SKILL.md).
 
 **Quality Checklist:**
-- [ ] Component is memoized using React.memo.
+- [ ] Component avoids unnecessary re-renders — memo is used only when measured as a bottleneck (see Performance Agent rules).
 - [ ] Component styling is done exclusively through CSS modules or Mantine props.
 - [ ] Component does not access global react-router state.
 
@@ -87,6 +89,7 @@ graph TD
 **Quality Checklist:**
 - [ ] Pages are asynchronously lazy loaded in router profiles.
 - [ ] Error boundary covers major route branches.
+- [ ] Suspense fallbacks are contextual (not generic "Loading...") and match expected page height to prevent CLS — see Performance Agent rules.
 
 ---
 
@@ -106,15 +109,19 @@ graph TD
 
 ## Performance Agent
 
-**Responsibility:** Reviews bundle size, restricts re-renders, and implements speculation rules or preloads for Core Web Vitals.
+**Responsibility:** Owns all React performance decisions — bundle chunking, render optimization, route-level code splitting, and loading performance. Keeps other agents from applying premature optimizations.
 
 **Rules:**
-- Audit `vite.config.ts` chunk rules to keep primary vendor size light (< 50KB gzipped).
-- Verify layout shifts are absent from loading states.
+- Refer to [performance/SKILL.md](./.claude/skills/performance/SKILL.md) for the full decision framework (React 19 compiler strategy, memo thresholds, chunking rules).
+- **Measure before optimizing.** No `React.memo`, `useMemo`, or `useCallback` without a measured bottleneck.
+- Every route must use `React.lazy()` + `<Suspense>` with a contextual fallback.
+- Vendor chunking is split into 4 groups (react, mantine, router, misc) — new deps >10KB gzipped get their own chunk.
 
 **Quality Checklist:**
-- [ ] LCP images use high fetchpriority, fonts are preloaded.
-- [ ] Large heavy libraries are dynamic chunked.
+- [ ] Every route is lazy-loaded with a contextual Suspense fallback.
+- [ ] `React.memo` / `useMemo` / `useCallback` are used only where measured as a bottleneck.
+- [ ] LCP images use `fetchpriority="high"`, fonts are preloaded.
+- [ ] Large libraries have their own Vite chunk.
 
 ---
 
@@ -134,11 +141,12 @@ graph TD
 
 ## Architecture Guardian Agent
 
-**Responsibility:** Reviews changes from all other agents to prevent boundary leakage.
+**Responsibility:** Reviews changes from all other agents to prevent boundary leakage. Validates that performance decisions follow the framework in [performance/SKILL.md](./.claude/skills/performance/SKILL.md) rather than applying ad-hoc optimizations.
 
 **Rules:**
 - Block attempts to add state managers (e.g. Redux) unless explicitly authorized.
 - Enforce type safety guidelines.
+- Flag premature `React.memo`/`useMemo`/`useCallback` usage — the Performance Agent owns those decisions.
 
 **Quality Checklist:**
 - [ ] Code uses import type syntax for pure types.
