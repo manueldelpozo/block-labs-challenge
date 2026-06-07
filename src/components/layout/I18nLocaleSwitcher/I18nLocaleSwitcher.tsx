@@ -1,5 +1,6 @@
 import { Group, SegmentedControl, Text } from '@mantine/core';
 import { useI18n } from '@/hooks/useI18n';
+import { LOCALE_LABELS } from '@/config/i18n.config';
 
 export function I18nLocaleSwitcher() {
   const { currentLocale, setLocale, supportedLocales } = useI18n();
@@ -10,7 +11,7 @@ export function I18nLocaleSwitcher() {
 
   const localeData = supportedLocales.map((locale) => ({
     value: locale,
-    label: locale === 'en-US' ? 'EN' : locale === 'ja-JP' ? 'JA' : locale,
+    label: LOCALE_LABELS[locale] ?? locale,
   }));
 
   return (
