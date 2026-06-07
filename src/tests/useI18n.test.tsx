@@ -2,6 +2,7 @@ import { renderHook, act } from '@testing-library/react';
 import { TenantProvider } from '@/app/providers/TenantProvider';
 import { I18nProvider } from '@/app/providers/I18nProvider';
 import { useI18n } from '@/hooks/useI18n';
+import type { TLocaleCode } from '@/config/i18n.config';
 import { describe, it, expect, vi } from 'vitest';
 
 describe('useI18n Hook', () => {
@@ -104,7 +105,7 @@ describe('useI18n Hook', () => {
     const { result } = renderHook(() => useI18n(), { wrapper });
 
     act(() => {
-      result.current.setLocale('fr-FR');
+      result.current.setLocale('fr-FR' as unknown as TLocaleCode);
     });
 
     // Should remain at default

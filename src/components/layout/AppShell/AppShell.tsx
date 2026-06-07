@@ -4,7 +4,6 @@ import { Link, Outlet, useLocation } from 'react-router';
 import { TenantLogo } from '@/components/ui/TenantLogo';
 import { useTenant } from '@/hooks/useTenant';
 import { useFeatureFlag } from '@/hooks/useFeatureFlag';
-import { I18nLocaleSwitcher } from '@/components/layout/I18nLocaleSwitcher/I18nLocaleSwitcher';
 import classes from './AppShell.module.css';
 
 export function AppShell() {
@@ -56,7 +55,6 @@ export function AppShell() {
               {item.label}
             </Link>
           ))}
-          <I18nLocaleSwitcher />
         </Group>
       </MantineAppShell.Header>
 

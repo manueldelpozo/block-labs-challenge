@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import type { TTranslationMap, ITenantI18nConfig } from '@/config/i18n.config';
+import { createContext, useState, useEffect, useCallback, useMemo, type ReactNode } from 'react';
+import type { TTranslationMap, ITenantI18nConfig, TLocaleCode } from '@/config/i18n.config';
 import { mergeTranslations } from '@/config/i18n.config';
 import { useTenant } from '@/hooks/useTenant';
 import { enUS } from '@/i18n/locales/en-US';
@@ -9,13 +9,13 @@ import { enUS as blockDefaultEnUS } from '@/i18n/tenants/block-default/en-US';
 import { jaJP as blockDefaultJaJP } from '@/i18n/tenants/block-default/ja-JP';
 import { esES as blockDefaultEsES } from '@/i18n/tenants/block-default/es-ES';
 
-const BASE_TRANSLATIONS: Record<string, TTranslationMap> = {
+const BASE_TRANSLATIONS: Record<TLocaleCode, TTranslationMap> = {
   'en-US': enUS,
   'ja-JP': jaJP,
   'es-ES': esES,
 };
 
-const TENANT_OVERRIDES: Record<string, Record<string, TTranslationMap>> = {
+const TENANT_OVERRIDES: Record<string, Record<TLocaleCode, TTranslationMap>> = {
   'block-default': {
     'en-US': blockDefaultEnUS,
     'ja-JP': blockDefaultJaJP,
@@ -31,11 +31,11 @@ export interface II18nContextValue {
   /** Format a number using the user's locale. */
   formatNumber: (value: number) => string;
   /** The currently active locale code (e.g. 'en-US', 'ja-JP'). */
-  currentLocale: string;
+  currentLocale: TLocaleCode;
   /** Switch the current locale. Silently ignored if the locale is not in supportedLocales. */
-  setLocale: (locale: string) => void;
+  setLocale: (locale: TLocaleCode) => void;
   /** The list of locales this tenant supports (from tenant config). */
-  supportedLocales: string[];
+  supportedLocales: TLocaleCode[];
   /** The tenant's i18n configuration. */
   i18nConfig: ITenantI18nConfig;
 }
@@ -44,7 +44,7 @@ export const I18nContext = createContext<II18nContextValue | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const { tenant, tenantId } = useTenant();
-  const [currentLocale, setCurrentLocale] = useState<string>(() => tenant.i18n.defaultLocale);
+  const [currentLocale, setCurrentLocale] = useState<TLocaleCode>(() => tenant.i18n.defaultLocale);
 
   // Reset locale if tenant changes and current locale isn't supported
   useEffect(() => {
@@ -53,9 +53,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
   }, [tenantId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const baseTranslations = BASE_TRANSLATIONS[currentLocale] ?? BASE_TRANSLATIONS['en-US'] ?? {};
-  const tenantOverrides = TENANT_OVERRIDES[tenantId]?.[currentLocale] ?? {};
-  const merged: TTranslationMap = mergeTranslations(baseTranslations, tenantOverrides);
+  const merged = useMemo(() => {
+    const base = BASE_TRANSLATIONS[currentLocale] ?? BASE_TRANSLATIONS['en-US'] ?? {};
+    const overrides = TENANT_OVERRIDES[tenantId]?.[currentLocale] ?? {};
+    return mergeTranslations(base, overrides);
+  }, [currentLocale, tenantId]);
 
   const t = useCallback((key: string): string => merged[key] ?? key, [merged]);
 
@@ -85,7 +87,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   );
 
   const setLocale = useCallback(
-    (locale: string) => {
+    (locale: TLocaleCode) => {
       if (tenant.i18n.supportedLocales.includes(locale)) {
         setCurrentLocale(locale);
       }
@@ -93,19 +95,18 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     [tenant.i18n.supportedLocales],
   );
 
-  return (
-    <I18nContext.Provider
-      value={{
-        t,
-        formatCurrency,
-        formatNumber,
-        currentLocale,
-        setLocale,
-        supportedLocales: tenant.i18n.supportedLocales,
-        i18nConfig: tenant.i18n,
-      }}
-    >
-      {children}
-    </I18nContext.Provider>
+  const contextValue = useMemo(
+    () => ({
+      t,
+      formatCurrency,
+      formatNumber,
+      currentLocale,
+      setLocale,
+      supportedLocales: tenant.i18n.supportedLocales,
+      i18nConfig: tenant.i18n,
+    }),
+    [t, formatCurrency, formatNumber, currentLocale, setLocale, tenant.i18n],
   );
+
+  return <I18nContext.Provider value={contextValue}>{children}</I18nContext.Provider>;
 }
