@@ -74,6 +74,12 @@ export const esES: TTranslationMap = {
     'El enlace que seguiste puede estar roto, o la página puede haber sido movida o desactivada para tu suscripción de inquilino.',
   'page.notFound.returnHome': 'Volver al Panel',
 
+  'page.profile.validation.nameTooShort': 'El nombre debe tener al menos 2 caracteres',
+  'page.profile.validation.invalidEmail': 'Por favor, introduce un correo electrónico válido',
+  'page.profile.validation.bioTooLong': 'La biografía debe tener menos de 200 caracteres',
+
+  'page.settings.validation.handleTooShort': 'El usuario administrador debe tener al menos 3 caracteres',
+
   'common.trend.increase': 'Aumentó en',
   'common.trend.decrease': 'Disminuyó en',
 };

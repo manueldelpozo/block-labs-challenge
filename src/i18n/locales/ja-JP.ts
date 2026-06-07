@@ -73,6 +73,12 @@ export const jaJP: TTranslationMap = {
     'リンクが壊れているか、テナントサブスクリプションでページが移動または無効になった可能性があります。',
   'page.notFound.returnHome': 'ダッシュボードに戻る',
 
+  'page.profile.validation.nameTooShort': '名前は2文字以上である必要があります',
+  'page.profile.validation.invalidEmail': '有効なメールアドレスを入力してください',
+  'page.profile.validation.bioTooLong': '自己紹介は200文字以内である必要があります',
+
+  'page.settings.validation.handleTooShort': '管理ハンドルは3文字以上である必要があります',
+
   'common.trend.increase': '増加',
   'common.trend.decrease': '減少',
 };

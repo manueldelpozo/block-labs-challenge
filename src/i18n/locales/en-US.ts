@@ -72,6 +72,12 @@ export const enUS: TTranslationMap = {
     'The link you followed may be broken, or the page may have been moved or disabled for your tenant subscription.',
   'page.notFound.returnHome': 'Return to Dashboard',
 
+  'page.profile.validation.nameTooShort': 'Name must be at least 2 characters',
+  'page.profile.validation.invalidEmail': 'Please enter a valid email address',
+  'page.profile.validation.bioTooLong': 'Bio must be under 200 characters',
+
+  'page.settings.validation.handleTooShort': 'Admin handle must be at least 3 characters',
+
   'common.trend.increase': 'Increased by',
   'common.trend.decrease': 'Decreased by',
 };
