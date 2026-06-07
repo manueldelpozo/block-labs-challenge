@@ -1,8 +1,10 @@
 import { Center, Stack, Title, Text, Button } from '@mantine/core';
 import { useNavigate } from 'react-router';
+import { useI18n } from '@/hooks/useI18n';
 
 export function NotFound() {
   const navigate = useNavigate();
+  const { t } = useI18n();
 
   return (
     <Center style={{ minHeight: '80vh', padding: 'var(--mantine-spacing-xl)' }}>
@@ -18,13 +20,12 @@ export function NotFound() {
         >
           404
         </Title>
-        <Title order={2}>Page Not Found</Title>
+        <Title order={2}>{t('page.notFound.title')}</Title>
         <Text c="dimmed" size="md" style={{ maxWidth: 450 }}>
-          The link you followed may be broken, or the page may have been moved or disabled for your
-          tenant subscription.
+          {t('page.notFound.description')}
         </Text>
         <Button size="md" onClick={() => navigate('/')} mt="md">
-          Return to Dashboard
+          {t('page.notFound.returnHome')}
         </Button>
       </Stack>
     </Center>

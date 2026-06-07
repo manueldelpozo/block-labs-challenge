@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MantineProvider } from '@mantine/core';
-import { TenantProvider, FeatureFlagProvider } from '@/app/providers';
+import { TenantProvider, FeatureFlagProvider, I18nProvider } from '@/app/providers';
 import { Settings } from '@/pages/Settings';
 import { describe, it, expect } from 'vitest';
 
@@ -11,7 +11,9 @@ describe('Settings Page Integration', () => {
       <MantineProvider>
         <TenantProvider>
           <FeatureFlagProvider>
-            <Settings />
+            <I18nProvider>
+              <Settings />
+            </I18nProvider>
           </FeatureFlagProvider>
         </TenantProvider>
       </MantineProvider>,

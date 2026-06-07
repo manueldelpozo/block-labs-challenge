@@ -15,6 +15,7 @@ import { useForm } from '@mantine/form';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { useTenant } from '@/hooks/useTenant';
 import { useFeatureFlag } from '@/hooks/useFeatureFlag';
+import { useI18n } from '@/hooks/useI18n';
 
 interface ISettingsFormValues {
   username: string;
@@ -26,6 +27,7 @@ export function Settings() {
   const showAnalytics = useFeatureFlag('showAnalytics');
   const enableDarkMode = useFeatureFlag('enableDarkMode');
   const showBetaBanner = useFeatureFlag('showBetaBanner');
+  const { t } = useI18n();
 
   const [isSaving, setIsSaving] = useState(false);
 
@@ -37,7 +39,7 @@ export function Settings() {
     },
     validate: {
       username: (value) =>
-        value.trim().length < 3 ? 'Admin handle must be at least 3 characters' : null,
+        value.trim().length < 3 ? t('page.settings.validation.handleTooShort') : null,
     },
   });
 
@@ -47,26 +49,23 @@ export function Settings() {
   }, []);
 
   return (
-    <PageContainer
-      title="Settings"
-      description="View and customize tenant environment variables, active features, and configuration profiles."
-    >
+    <PageContainer title={t('page.settings.title')} description={t('page.settings.description')}>
       <Stack gap="xl">
         <Paper withBorder p="md" radius="md">
           <Stack gap="sm">
             <Group justify="space-between">
-              <Title order={3}>Tenant Specifications</Title>
+              <Title order={3}>{t('page.settings.tenantSpecs')}</Title>
               <Badge variant="light" size="lg" color="indigo">
                 {tenantId}
               </Badge>
             </Group>
             <Divider />
-            <SimpleProperty label="Official Name" value={tenant.name} />
-            <SimpleProperty label="Resolved Identifier" value={tenant.id} />
-            <SimpleProperty label="Target API Endpoint" value={tenant.apiBase} />
-            <SimpleProperty label="Configured Theme Font" value={tenant.theme.fontFamily} />
+            <SimpleProperty label={t('page.settings.officialName')} value={tenant.name} />
+            <SimpleProperty label={t('page.settings.resolvedId')} value={tenant.id} />
+            <SimpleProperty label={t('page.settings.apiEndpoint')} value={tenant.apiBase} />
+            <SimpleProperty label={t('page.settings.themeFont')} value={tenant.theme.fontFamily} />
             <SimpleProperty
-              label="Border Radius Spec"
+              label={t('page.settings.borderRadius')}
               value={tenant.theme.borderRadius.toUpperCase()}
             />
           </Stack>
@@ -74,37 +73,37 @@ export function Settings() {
 
         <Paper withBorder p="md" radius="md">
           <Stack gap="sm">
-            <Title order={3}>Active Feature Envelopes</Title>
+            <Title order={3}>{t('page.settings.activeFeatures')}</Title>
             <Divider />
-            <FeatureStatusLabel label="Analytics Suite" active={showAnalytics} />
-            <FeatureStatusLabel label="Tenant Settings Console" active={true} />
-            <FeatureStatusLabel label="Native Dark Mode" active={enableDarkMode} />
-            <FeatureStatusLabel label="Beta Banner Alerts" active={showBetaBanner} />
+            <FeatureStatusLabel label={t('page.settings.analyticsSuite')} active={showAnalytics} />
+            <FeatureStatusLabel label={t('page.settings.settingsConsole')} active={true} />
+            <FeatureStatusLabel label={t('page.settings.darkMode')} active={enableDarkMode} />
+            <FeatureStatusLabel label={t('page.settings.betaBanner')} active={showBetaBanner} />
           </Stack>
         </Paper>
 
         <Paper withBorder p="md" radius="md">
           <form onSubmit={form.onSubmit(handleSave)}>
             <Stack gap="md">
-              <Title order={3}>Interactive Configuration Simulator</Title>
+              <Title order={3}>{t('page.settings.simulator')}</Title>
               <Divider />
               <TextInput
                 withAsterisk
-                label="Simulation Admin Handle"
-                description="Change local administrator name for this session"
-                placeholder="Enter admin handle"
+                label={t('page.settings.adminHandle')}
+                description={t('page.settings.adminHandleDescription')}
+                placeholder={t('page.settings.adminHandlePlaceholder')}
                 key={form.key('username')}
                 {...form.getInputProps('username')}
               />
               <Switch
-                label="Enable automated email dispatches"
-                description="Simulate email alerts toggle state for configuration overrides"
+                label={t('page.settings.emailDispatch')}
+                description={t('page.settings.emailDispatchDescription')}
                 key={form.key('emailNotify')}
                 {...form.getInputProps('emailNotify', { type: 'checkbox' })}
               />
               <Group justify="flex-end" mt="md">
                 <Button type="submit" loading={isSaving}>
-                  Apply Overrides
+                  {t('page.settings.applyOverrides')}
                 </Button>
               </Group>
             </Stack>
@@ -129,13 +128,14 @@ function SimpleProperty({ label, value }: { label: string; value: string }) {
 }
 
 function FeatureStatusLabel({ label, active }: { label: string; active: boolean }) {
+  const { t } = useI18n();
   return (
     <Group justify="space-between">
       <Text size="sm" fw={500}>
         {label}
       </Text>
       <Badge color={active ? 'green' : 'red'} variant="dot">
-        {active ? 'Active' : 'Suspended'}
+        {active ? t('page.settings.active') : t('page.settings.suspended')}
       </Badge>
     </Group>
   );

@@ -3,6 +3,7 @@ import { SimpleGrid, Alert, Paper, Title, Text, Stack, Loader, Center } from '@m
 import { PageContainer } from '@/components/layout/PageContainer';
 import { StatCard } from '@/components/ui/StatCard';
 import { useFeatureFlag } from '@/hooks/useFeatureFlag';
+import { useI18n } from '@/hooks/useI18n';
 import { useData } from '@/hooks/useData';
 import classes from './Dashboard.module.css';
 
@@ -19,6 +20,7 @@ interface IStatItem {
 export function Dashboard() {
   const showAnalytics = useFeatureFlag('showAnalytics');
   const showBetaBanner = useFeatureFlag('showBetaBanner');
+  const { t } = useI18n();
 
   const statsFetcher = useMemo(() => {
     return async (signal?: AbortSignal) => {
@@ -33,27 +35,27 @@ export function Dashboard() {
 
       return [
         {
-          label: 'Total Revenue',
+          label: 'page.dashboard.stat.totalRevenue',
           value: '$128,430',
           trend: { value: 12.5, isPositive: true },
           icon: '💰',
         },
         {
-          label: 'Active Users',
+          label: 'page.dashboard.stat.activeUsers',
           value: '8,642',
           trend: { value: 5.3, isPositive: true },
           icon: '👥',
         },
         {
-          label: 'Conversion Rate',
+          label: 'page.dashboard.stat.conversionRate',
           value: '3.24%',
           trend: { value: 0.8, isPositive: false },
           icon: '📈',
         },
         {
-          label: 'Avg Response Time',
+          label: 'page.dashboard.stat.avgResponseTime',
           value: '142ms',
-          trend: { value: 15.2, isPositive: true }, // positive since lower is better
+          trend: { value: 15.2, isPositive: true },
           icon: '⚡',
         },
       ];
@@ -63,19 +65,15 @@ export function Dashboard() {
   const { data: stats, isLoading, error } = useData<IStatItem[]>(statsFetcher);
 
   return (
-    <PageContainer
-      title="Dashboard"
-      description="Real-time multi-tenant platform performance metrics and business overview."
-    >
+    <PageContainer title={t('page.dashboard.title')} description={t('page.dashboard.description')}>
       {showBetaBanner && (
         <Alert
           color="blue"
-          title="Beta Feature Preview Enabled"
+          title={t('page.dashboard.betaBanner.title')}
           variant="light"
           className={classes.betaBanner}
         >
-          You are currently previewing a beta interface layout. Certain advanced reports are under
-          development.
+          {t('page.dashboard.betaBanner.message')}
         </Alert>
       )}
 
@@ -86,8 +84,8 @@ export function Dashboard() {
       )}
 
       {error && (
-        <Alert color="red" title="Error Loading Metrics">
-          Unable to load dashboard performance data: {error.message}
+        <Alert color="red" title={t('page.dashboard.errorLoading')}>
+          {t('page.dashboard.errorLoading.message')} {error.message}
         </Alert>
       )}
 
@@ -96,7 +94,7 @@ export function Dashboard() {
           {stats.map((stat) => (
             <StatCard
               key={stat.label}
-              label={stat.label}
+              label={t(stat.label)}
               value={stat.value}
               trend={stat.trend}
               icon={stat.icon}
@@ -108,12 +106,10 @@ export function Dashboard() {
       {showAnalytics ? (
         <Paper className={classes.analyticsSection}>
           <Stack gap="md">
-            <Title order={3}>Advanced Operations Analytics</Title>
+            <Title order={3}>{t('page.dashboard.analytics.title')}</Title>
             <Text c="dimmed" size="sm">
-              Operational analytics visualization is enabled for your tenant. Below is a mock
-              distribution graph.
+              {t('page.dashboard.analytics.enabled')}
             </Text>
-            {/* Visual mock of graph */}
             <div
               style={{
                 height: 180,
@@ -147,8 +143,7 @@ export function Dashboard() {
         <Paper p="xl" mt="xl" style={{ borderStyle: 'dashed' }}>
           <Stack align="center" gap="sm">
             <Text c="dimmed" size="sm" ta="center">
-              ⚠️ Advanced Operations Analytics is disabled for your tenant. Please contact support
-              or upgrade your subscription to unlock charts.
+              {t('page.dashboard.analytics.disabled')}
             </Text>
           </Stack>
         </Paper>

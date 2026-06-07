@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { MemoryRouter } from 'react-router';
+import { TenantProvider, I18nProvider } from '@/app/providers';
 import { NotFound } from '@/pages/NotFound';
 import { describe, it, expect } from 'vitest';
 
@@ -8,9 +9,13 @@ describe('NotFound Page', () => {
   const renderNotFound = () => {
     return render(
       <MantineProvider>
-        <MemoryRouter>
-          <NotFound />
-        </MemoryRouter>
+        <TenantProvider>
+          <I18nProvider>
+            <MemoryRouter>
+              <NotFound />
+            </MemoryRouter>
+          </I18nProvider>
+        </TenantProvider>
       </MantineProvider>,
     );
   };

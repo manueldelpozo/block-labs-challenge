@@ -4,6 +4,7 @@ import { Link, Outlet, useLocation } from 'react-router';
 import { TenantLogo } from '@/components/ui/TenantLogo';
 import { useTenant } from '@/hooks/useTenant';
 import { useFeatureFlag } from '@/hooks/useFeatureFlag';
+import { useI18n } from '@/hooks/useI18n';
 import classes from './AppShell.module.css';
 
 export function AppShell() {
@@ -11,11 +12,12 @@ export function AppShell() {
   const location = useLocation();
   const { tenant } = useTenant();
   const showSettings = useFeatureFlag('showSettings');
+  const { t } = useI18n();
 
   const navItems = [
-    { label: 'Dashboard', path: '/', icon: '📊' },
-    { label: 'Profile', path: '/profile', icon: '👤' },
-    ...(showSettings ? [{ label: 'Settings', path: '/settings', icon: '⚙️' }] : []),
+    { label: t('nav.dashboard'), path: '/', icon: '📊' },
+    { label: t('nav.profile'), path: '/profile', icon: '👤' },
+    ...(showSettings ? [{ label: t('nav.settings'), path: '/settings', icon: '⚙️' }] : []),
   ];
 
   return (

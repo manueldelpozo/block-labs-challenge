@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
-import { TenantProvider, FeatureFlagProvider } from '@/app/providers';
+import { TenantProvider, FeatureFlagProvider, I18nProvider } from '@/app/providers';
 import { Dashboard } from '@/pages/Dashboard';
 import { describe, it, expect } from 'vitest';
 
@@ -10,7 +10,9 @@ describe('Dashboard Integration', () => {
       <MantineProvider>
         <TenantProvider>
           <FeatureFlagProvider>
-            <Dashboard />
+            <I18nProvider>
+              <Dashboard />
+            </I18nProvider>
           </FeatureFlagProvider>
         </TenantProvider>
       </MantineProvider>,
