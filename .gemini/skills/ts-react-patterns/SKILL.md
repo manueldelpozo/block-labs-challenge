@@ -424,4 +424,55 @@ return <Countdown ref={countdownRef} />;
 
 ---
 
+## 10. Narrowing Constant Maps
+
+When a constant map (e.g. `Record<string, string>`) has a fixed set of known keys,
+use `as const` to preserve the literal key and value types instead of widening to `string`:
+
+```typescript
+// ❌ Wide — keys and values are just `string`
+export const LOCALE_LABELS: Record<string, string> = {
+  'en-US': 'EN',
+  'ja-JP': 'JA',
+};
+// typeof LOCALE_LABELS → Record<string, string>
+
+// ✅ Narrow — keys and values are literal types
+export const LOCALE_LABELS = {
+  'en-US': 'EN',
+  'ja-JP': 'JA',
+} as const;
+// typeof LOCALE_LABELS → { readonly 'en-US': 'EN'; readonly 'ja-JP': 'JA' }
+```
+
+### Benefits
+- **Type-safe lookups** — `LOCALE_LABELS['en-US']` returns `'EN'` (literal), not `string | undefined`
+- **Autocomplete in editors** — typing `LOCALE_LABELS.` shows only the defined keys
+- **Catches typos** — `LOCALE_LABELS['en-UK']` is a compile error
+- **No runtime overhead** — `as const` is purely a compile-time annotation
+
+### When to use
+
+| ✅ Use `as const` | ❌ Keep `Record<K, V>` |
+|---|---|
+| Keys are known and fixed at authoring time | Keys come from dynamic data (API response, user input) |
+| You want TS to catch typos in map lookups | The map must accept arbitrary string keys |
+| Each value has a specific meaning that should be preserved | Values are truly homogeneous (e.g. any string is valid) |
+
+### Pattern: `satisfies Record<K, V>` for validation
+
+If you want narrow types *and* a structural check that every value conforms to a contract:
+
+```typescript
+export const LOCALE_LABELS = {
+  'en-US': 'EN',
+  'ja-JP': 'JA',
+} as const satisfies Record<string, string>;
+// Keys are literal, values are literal, AND TS checks that all values are strings.
+```
+
+> The `as const` narrowing is the same pattern used by the POJO-as-const skill for option sets, but applied to a flat label map rather than a full option definition.
+
+---
+
 *Source: https://react-typescript-cheatsheet.netlify.app — condensed for this codebase.*
