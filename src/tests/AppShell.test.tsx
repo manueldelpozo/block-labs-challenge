@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { MemoryRouter } from 'react-router';
-import { TenantProvider, FeatureFlagProvider } from '@/app/providers';
+import { TenantProvider, FeatureFlagProvider, I18nProvider } from '@/app/providers';
 import { AppShell } from '@/components/layout/AppShell';
 import { describe, it, expect } from 'vitest';
 
@@ -11,9 +11,11 @@ describe('AppShell Layout', () => {
       <MantineProvider>
         <TenantProvider>
           <FeatureFlagProvider>
-            <MemoryRouter initialEntries={initialEntries}>
-              <AppShell />
-            </MemoryRouter>
+            <I18nProvider>
+              <MemoryRouter initialEntries={initialEntries}>
+                <AppShell />
+              </MemoryRouter>
+            </I18nProvider>
           </FeatureFlagProvider>
         </TenantProvider>
       </MantineProvider>,

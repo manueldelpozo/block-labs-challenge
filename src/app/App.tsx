@@ -1,6 +1,6 @@
 import { MantineProvider } from '@mantine/core';
 import { RouterProvider } from 'react-router';
-import { TenantProvider, FeatureFlagProvider } from './providers';
+import { TenantProvider, FeatureFlagProvider, I18nProvider } from './providers';
 import { useTenant } from '@/hooks/useTenant';
 import { resolveTenantTheme, cssVariablesResolver } from '@/theme';
 import { router } from './router';
@@ -16,7 +16,9 @@ function ThemeWrapper() {
       cssVariablesResolver={cssVariablesResolver}
       defaultColorScheme="light"
     >
-      <RouterProvider router={router} />
+      <I18nProvider>
+        <RouterProvider router={router} />
+      </I18nProvider>
     </MantineProvider>
   );
 }

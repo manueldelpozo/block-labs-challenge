@@ -1,4 +1,5 @@
 import type { IFeatureFlags } from './features';
+import type { ITenantI18nConfig } from './i18n.config';
 
 export interface ITenantThemeConfig {
   primaryColor: string;
@@ -14,6 +15,7 @@ export interface ITenantConfig {
   features: IFeatureFlags;
   logo: string;
   apiBase: string;
+  i18n: ITenantI18nConfig;
 }
 
 export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
@@ -45,6 +47,11 @@ export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
     },
     logo: 'Block Labs',
     apiBase: 'https://api.blocklabs.default',
+    i18n: {
+      supportedLocales: ['en-US', 'ja-JP', 'es-ES'],
+      defaultLocale: 'en-US',
+      currency: 'USD',
+    },
   },
 };
 
