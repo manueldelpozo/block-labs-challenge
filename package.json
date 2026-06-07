@@ -38,6 +38,7 @@
     "vitest": "^3.2.6"
   },
   "dependencies": {
+    "@ai-sdk/openai-compatible": "^2.0.48",
     "@mantine/core": "^9.3.0",
     "@mantine/form": "^9.3.0",
     "@mantine/hooks": "^9.3.0",
