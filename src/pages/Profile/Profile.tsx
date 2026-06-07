@@ -23,6 +23,7 @@ import {
   COLOR_SCHEME_DISPLAY_LABELS,
   type TColorSchemeValue,
 } from '@/theme/color-schemes';
+import { I18nLocaleSwitcher } from '@/components/layout/I18nLocaleSwitcher/I18nLocaleSwitcher';
 
 interface IProfileFormValues {
   name: string;
@@ -85,6 +86,14 @@ export function Profile() {
               data={COLOR_SCHEME_OPTIONS_LIST}
               fullWidth
             />
+            <Divider />
+            <Text size="sm" fw={600}>
+              Language
+            </Text>
+            <Text size="xs" c="dimmed">
+              Choose your preferred language for the interface.
+            </Text>
+            <I18nLocaleSwitcher />
           </Stack>
         </Paper>
 

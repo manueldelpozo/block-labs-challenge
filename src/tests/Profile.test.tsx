@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MantineProvider } from '@mantine/core';
+import { TenantProvider, FeatureFlagProvider, I18nProvider } from '@/app/providers';
 import { Profile } from '@/pages/Profile';
 import { describe, it, expect } from 'vitest';
 
@@ -8,7 +9,13 @@ describe('Profile Page Integration', () => {
   const renderProfile = () => {
     return render(
       <MantineProvider>
-        <Profile />
+        <TenantProvider>
+          <FeatureFlagProvider>
+            <I18nProvider>
+              <Profile />
+            </I18nProvider>
+          </FeatureFlagProvider>
+        </TenantProvider>
       </MantineProvider>,
     );
   };
