@@ -14,6 +14,7 @@ Manages client contexts, custom states, features gates, and hooks life cycles. W
 - Standardize error handling and AbortController request cleanups.
 - Export strict TypeScript typings for state APIs.
 - Follow the [POJO as const](../pojo-as-const/SKILL.md) pattern when defining option sets in config or constant files.
+- **Reuse POJO-derived types instead of redefining unions.** When a config file already exports types like `TEmailPriorityValue` or `TColorSchemeValue`, import and use them in hook interfaces. Do not hardcode equivalent union literals — the POJO is the single source of truth.
 
 ## State Management Decision Guide
 
