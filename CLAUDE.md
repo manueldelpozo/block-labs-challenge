@@ -141,13 +141,18 @@ graph TD
 
 ## Architecture Guardian Agent
 
-**Responsibility:** Reviews changes from all other agents to prevent boundary leakage. Validates that performance decisions follow the framework in [performance/SKILL.md](./.claude/skills/performance/SKILL.md) rather than applying ad-hoc optimizations.
+**Responsibility:** Reviews changes from all other agents to prevent boundary leakage. Governs the multi-tenant configuration registry, theme files, and feature flag schema — see [tenant-config/SKILL.md](./.claude/skills/tenant-config/SKILL.md) for the full tenant onboarding workflow. Validates that performance decisions follow the framework in [performance/SKILL.md](./.claude/skills/performance/SKILL.md) rather than applying ad-hoc optimizations.
 
 **Rules:**
 - Block attempts to add state managers (e.g. Redux) unless explicitly authorized.
 - Enforce type safety guidelines.
 - Flag premature `React.memo`/`useMemo`/`useCallback` usage — the Performance Agent owns those decisions.
+- Every new tenant **must** have: a `TENANT_REGISTRY` entry, a per-tenant theme file in `src/theme/tenants/`, registration in `THEME_RESOLVERS`, and updated tests.
+- Block `if (tenant === '...')` branching in shared UI components — use the component variants pattern instead.
 
 **Quality Checklist:**
 - [ ] Code uses import type syntax for pure types.
 - [ ] Component nesting boundaries are correct.
+- [ ] New tenants have a complete registry entry with all required fields.
+- [ ] New tenants have a theme file registered in `THEME_RESOLVERS`.
+- [ ] Tests are updated for new tenant config values.

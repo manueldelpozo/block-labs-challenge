@@ -1,11 +1,12 @@
 ---
 name: tenant-config
 description: Multi-tenant registration, theming, and feature flag configuration
+agent: architecture-guardian
 ---
 
 # Tenant Configuration
 
-**Scope:** `src/config/tenant.config.ts`, `src/types/tenant.ts`, `src/types/features.ts`, `src/config/features.ts`, `src/theme/mantine-theme.ts`, `src/theme/tenants/`
+**Scope:** `src/config/tenant.config.ts`, `src/config/features.ts`, `src/theme/mantine-theme.ts`, `src/theme/tenants/`, `src/theme/index.ts`, `src/app/providers/TenantProvider.tsx`, `src/hooks/useTenant.ts`
 
 ## Responsibility
 
