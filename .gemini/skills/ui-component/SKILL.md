@@ -21,6 +21,8 @@ Drafts accessible, presentational UI modules using Mantine component primitives.
 - Context-consumer components (those that read `useTenant`, `useI18n`, or `useFeatureFlag`) belong in `src/components/layout/`, not `src/components/ui/`. The layout layer is the bridge between hooks and pure UI.
 - Colocate CSS Modules for unique class modifiers.
 - Implement full ARIA accessibility descriptors.
+- **Use Mantine's exported TypeScript types.** `@mantine/core` exports prop types for every component (`ButtonProps`, `SelectProps`, `TextInputProps`, etc.). Import them instead of re-declaring prop interfaces manually. For wrapping native elements, use `ComponentPropsWithoutRef<'button'>` from React. For Mantine polymorphic components, use the component's exported `*Props` type (e.g. `ButtonProps` includes `component` and other polymorphic props).
+- **Use Mantine's exported TypeScript types.** `@mantine/core` exports prop types for every component (`ButtonProps`, `SelectProps`, `TextInputProps`, etc.). Import them instead of re-declaring prop interfaces manually. For wrapping native elements, use `ComponentPropsWithoutRef<'button'>` from React. For Mantine polymorphic components, use the component's exported `*Props` type (e.g. `ButtonProps` includes `component` and other polymorphic props).
 
 ## Testing
 - Write a `.test.tsx` file for every component (co-located in `src/tests/`).

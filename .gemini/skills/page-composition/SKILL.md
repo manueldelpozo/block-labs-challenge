@@ -15,7 +15,7 @@ Composes layout envelopes, wraps child elements in Suspense states, and hooks bu
 - If you need to check Mantine component APIs or examples, use Mantine's LLM-optimized documentation. You can fetch "https://mantine.dev/llms.txt" to find the documentation URL for any component.
 - Follow the TypeScript + React Patterns cheatsheet strictly (see [ts-react-patterns](../ts-react-patterns/SKILL.md)).
 - Follow the [POJO as const](../pojo-as-const/SKILL.md) pattern when defining page-level option sets (color schemes, tabs, filters, etc.).
-- For form validation, follow the [Form Validation](../hook-logic/SKILL.md#form-validation) guide in hook-logic — use Mantine's `useForm` for standard forms, inline checks for trivial cases, and Zod only when complexity demands it.
+- For form validation, follow the [Form Validation](../hook-logic/SKILL.md#form-validation) guide in hook-logic — use Mantine's `useForm` for standard forms, inline checks for trivial cases, and Zod only when complexity demands it. When typing a `form` return value, use `UseFormReturnType` and `FormRulesRecord` from `@mantine/form` instead of `ReturnType<typeof useForm<…>>`.
 - Build page elements at src/pages/ and router mappings at src/app/router.tsx.
 - Split pages with React.lazy dynamically.
 

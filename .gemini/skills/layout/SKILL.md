@@ -17,6 +17,8 @@ Designs structural viewport envelopes, headers, sidebars, grids, and skeleton sl
 - Do not handle raw data fetching (API calls) directly. Layouts may read tenant context and feature flags via hooks, then pass resolved values as props to child UI components.
 - Layout components are the appropriate bridge layer: read hooks from `@/hooks/`, pass data as props to UI components from `@/components/ui/`. Never let UI components import hooks directly.
 - Ensure breakpoint layout responsiveness (320px to 1440px).
+- **Use Mantine's exported TypeScript types.** `@mantine/core` exports prop types for every component (`AppShellProps`, `GroupProps`, `StackProps`, `NavLinkProps`, etc.). Import them to type layout component props instead of re-declaring prop interfaces manually.
+- **Use Mantine's exported TypeScript types.** `@mantine/core` exports prop types for every component (`AppShellProps`, `GroupProps`, `StackProps`, `NavLinkProps`, etc.). Import them to type layout component props instead of re-declaring prop interfaces manually.
 
 ## Testing
 - Test layout components in isolation: verify header, navbar, and main area render children via Outlet.
