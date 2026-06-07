@@ -68,6 +68,9 @@ export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
 | `features` | `Record<string, boolean>` | Per-tenant feature flag overrides |
 | `logo` | `string` | Brand logo text |
 | `apiBase` | `string` | Base API URL for this tenant |
+| `i18n.supportedLocales` | `string[]` | List of locale codes this tenant supports (e.g. `['en-US', 'ja-JP']`) |
+| `i18n.defaultLocale` | `string` | Default locale when none is selected (must be in `supportedLocales`) |
+| `i18n.currency` | `string` | ISO 4217 currency code for `Intl.NumberFormat` (e.g. `USD`, `JPY`) |
 
 ---
 
@@ -168,6 +171,27 @@ Then register it in `src/theme/index.ts`:
 1. Import the function
 2. Export it via `export * from './tenants/block-custom'`
 3. Add it to the `THEME_RESOLVERS` map
+
+### Step 3.5 — Create per-locale translation override files
+
+Each tenant **should** have per-locale translation override files in `src/i18n/tenants/{tenant-id}/`. These files export a partial `TTranslationMap` that overrides specific keys from the base locale file:
+
+```typescript
+// src/i18n/tenants/{tenant-id}/en-US.ts
+import type { TTranslationMap } from '@/config/i18n.config';
+
+export const enUS: TTranslationMap = {
+  'nav.dashboard': 'Overview',  // override just this key
+};
+```
+
+If no overrides are needed, create the file with an empty object:
+
+```typescript
+export const enUS: TTranslationMap = {};
+```
+
+Then register the overrides in `src/app/providers/I18nProvider.tsx` by adding to the `TENANT_OVERRIDES` map.
 
 ### Step 4 — Wire it up (automatic)
 
@@ -344,10 +368,12 @@ it('resolves the new tenant config correctly', () => {
 
 - [ ] New tenant entry added to `TENANT_REGISTRY` with all required fields.
 - [ ] Per-tenant theme file created at `src/theme/tenants/{tenant-id}.ts` exporting a `get{Name}Theme()` function.
+- [ ] Per-locale translation override files exist in `src/i18n/tenants/{id}/`.
 - [ ] Theme file registered in `src/theme/index.ts` (import, re-export, and `THEME_RESOLVERS` entry).
 - [ ] `brandColors` array has exactly 10 hex values.
 - [ ] `primaryColor` matches the name of the 10-shade color being defined.
 - [ ] If new feature flags were added: they are in `IFeatureFlags` interface, `DEFAULT_FEATURES`, and `mergeFeatures()`.
+- [ ] `i18n` config fields are set in the registry entry (`supportedLocales`, `defaultLocale`, `currency`).
 - [ ] Tenant can be activated via `?tenant={id}` query parameter.
 - [ ] Fallback to `block-default` works when no/invalid tenant is specified.
 - [ ] Tests updated (`useTenant.test.tsx`, and any page tests affected by flag changes).

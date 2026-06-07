@@ -18,6 +18,7 @@ Drafts accessible, presentational UI modules using Mantine component primitives.
 - For form validation patterns, see the [Form Validation](../hook-logic/SKILL.md#form-validation) guide in hook-logic.
 - Zero application logic, fetch statements, or route dependencies.
 - NEVER import hooks from `@/hooks/` inside a UI component. Hooks belong in the caller (layout or page). Pass data as props instead.
+- Context-consumer components (those that read `useTenant`, `useI18n`, or `useFeatureFlag`) belong in `src/components/layout/`, not `src/components/ui/`. The layout layer is the bridge between hooks and pure UI.
 - Colocate CSS Modules for unique class modifiers.
 - Implement full ARIA accessibility descriptors.
 

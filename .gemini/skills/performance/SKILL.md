@@ -77,6 +77,12 @@ Vite config splits `node_modules` into four vendor chunks:
 
 If a new dependency exceeds 10KB gzipped, give it its own chunk. Otherwise it stays in `vendor-misc`.
 
+### Translation files
+
+Base translation files in `src/i18n/locales/` and tenant overrides in `src/i18n/tenants/` are statically imported in `I18nProvider.tsx`. This is acceptable when each file is under 2KB gzipped. If a locale file exceeds 5KB gzipped, migrate to dynamic `import()` so translations are fetched on demand rather than bundled with the initial chunk.
+
+Current translation files are under 1KB each — no action needed.
+
 ---
 
 ## Loading Performance

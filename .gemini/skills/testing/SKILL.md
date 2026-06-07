@@ -17,6 +17,7 @@ Writes clean unit and integration tests focusing on user-facing behavior. Acts a
 - Use `@testing-library/user-event` for interaction tests (clicks, typing, form submission).
 - Use `renderHook` from `@testing-library/react` for hook tests, wrapping in necessary providers.
 - Follow the patterns established in existing tests (e.g. `Dashboard.test.tsx`, `useTenant.test.tsx`).
+- When testing components that render inside `I18nProvider` (or that render `I18nLocaleSwitcher`), wrap the test render with `<I18nProvider>` inside `<TenantProvider>`.
 
 ## Feature Workflow Integration
 
@@ -36,6 +37,7 @@ The Testing Agent is a required participant in every feature. When the Page Comp
 | **Hook** | `renderHook` with provider wrappers, test initial state + resolved state + error + cleanup | `useTenant.test.tsx` |
 | **Layout** | Render with router + provider wrappers, assert nav items and structure | `AppShell.test.tsx` |
 | **Page (integration)** | Render with all providers, test loading spinner → data display → error fallback | `Dashboard.test.tsx` |
+| **Hook (i18n)** | `renderHook` with `TenantProvider` + `I18nProvider` wrappers, test translation, fallback, locale switching, unsupported locale, currency/number formatting | `useI18n.test.tsx` |
 | **Common (ErrorBoundary, LoadingFallback)** | Test children render, error state, custom fallback, custom message | `ErrorBoundary.test.tsx` |
 
 ## Quality Checklist

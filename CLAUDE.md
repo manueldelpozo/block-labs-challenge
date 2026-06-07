@@ -147,7 +147,7 @@ graph TD
 - Block attempts to add state managers (e.g. Redux) unless explicitly authorized.
 - Enforce type safety guidelines.
 - Flag premature `React.memo`/`useMemo`/`useCallback` usage — the Performance Agent owns those decisions.
-- Every new tenant **must** have: a `TENANT_REGISTRY` entry, a per-tenant theme file in `src/theme/tenants/`, registration in `THEME_RESOLVERS`, and updated tests.
+- Every new tenant **must** have: a `TENANT_REGISTRY` entry (including `i18n` config), a per-tenant theme file in `src/theme/tenants/`, registration in `THEME_RESOLVERS`, per-locale translation override files in `src/i18n/tenants/{id}/`, and updated tests.
 - Block `if (tenant === '...')` branching in shared UI components — use the component variants pattern instead.
 
 **Quality Checklist:**
@@ -156,3 +156,5 @@ graph TD
 - [ ] New tenants have a complete registry entry with all required fields.
 - [ ] New tenants have a theme file registered in `THEME_RESOLVERS`.
 - [ ] Tests are updated for new tenant config values.
+- [ ] New tenants have per-locale translation override files in `src/i18n/tenants/{id}/`.
+- [ ] New tenants have `i18n.supportedLocales` and `i18n.defaultLocale` set in the registry entry.

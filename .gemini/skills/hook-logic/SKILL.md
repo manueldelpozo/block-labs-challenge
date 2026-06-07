@@ -23,7 +23,7 @@ Choose the simplest tool that fits the shape of the state:
 |---|---|---|
 | **`useState`** | State is local to one component or hook | Form fields (`Profile.tsx`), loading flags (`useData.ts`) |
 | **`useReducer`** | State has complex update logic (multiple interdependent fields) | *Not yet needed* — prefer `useState` until the logic proves unwieldy |
-| **React Context** | State is read by multiple distant components and changes infrequently | `TenantProvider`, `FeatureFlagProvider` |
+| **React Context** | State is read by multiple distant components and changes infrequently | `TenantProvider`, `FeatureFlagProvider`, `I18nProvider` |
 | **Custom hook + `useState`** | State is scoped to one page/feature but needs structured fetch logic | `useData` (fetches + AbortController) |
 | **URL / query params** | State survives page refresh and is shareable via link | `?tenant=` param |
 | **`localStorage`** | State persists across sessions but is local to the browser | Theme preference (Mantine's `useMantineColorScheme`) |
@@ -65,6 +65,47 @@ const form = useForm({
 <Button onClick={() => form.onSubmit(handleSave)()}>Save</Button>
 ```
 
+## Internationalization (i18n)
+
+The `I18nProvider` and `useI18n` hook manage multi-tenant translations, locale switching, and number/currency formatting.
+
+### Provider order
+
+```
+TenantProvider → FeatureFlagProvider → MantineProvider → I18nProvider → RouterProvider
+```
+
+`I18nProvider` depends on `TenantProvider` (to read `tenant.i18n` config) but is independent of `FeatureFlagProvider`. It must be inside `MantineProvider` so any locale-switcher UI can use Mantine components.
+
+### Hook API
+
+```typescript
+const { t, formatCurrency, formatNumber, currentLocale, setLocale, supportedLocales } = useI18n();
+
+t('nav.dashboard')              // → "Dashboard" (or key as fallback)
+formatCurrency(128430)          // → "$128,430.00" (uses tenant currency + user locale)
+formatNumber(8642)              // → "8,642" (locale-aware)
+setLocale('ja-JP')              // switches locale; silently ignored if unsupported
+```
+
+### Translation merging
+
+Translations use a flat `Record<string, string>` key-value model. Base locale files provide the full set. Tenant override files provide partial overrides, merged at runtime:
+
+```typescript
+// In I18nProvider
+const merged = { ...baseTranslations, ...tenantOverrides };
+```
+
+This means tenant A can override `'nav.dashboard'` to say "Overview" while tenant B keeps the default "Dashboard" — without either tenant changing the base file.
+
+### Locale restrictions
+
+Each tenant's `i18n.supportedLocales` array controls:
+- Which options appear in the `I18nLocaleSwitcher` UI (hidden if ≤ 1 locale)
+- Whether `setLocale()` accepts a given value (silently rejected if unsupported)
+- Fallback behavior: if the tenant changes and the current locale is unsupported, it resets to `tenant.i18n.defaultLocale`
+
 ## Testing
 - Test each hook in isolation using a wrapper component or `renderHook` from `@testing-library/react`.
 - Test context providers by rendering a child component that consumes the context and asserting the provided value.
@@ -84,3 +125,5 @@ const form = useForm({
 - [ ] Each hook has a `.test.tsx` file covering success, error, and edge case paths.
 - [ ] Context providers throw descriptive errors when used outside their provider tree.
 - [ ] AbortController cleanup is verified in test (mock signal listener).
+- [ ] `I18nProvider` wraps `RouterProvider` (not inside individual pages).
+- [ ] `useI18n` has tests for: translation lookup, key fallback, locale switching, unsupported locale rejection, currency/number formatting.
