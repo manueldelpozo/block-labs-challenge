@@ -66,6 +66,26 @@ const form = useForm({
 <Button onClick={() => form.onSubmit(handleSave)()}>Save</Button>
 ```
 
+> **Type the form return value explicitly.** When you need to type a `form` field in a custom hook's return interface, import `UseFormReturnType` and `FormRulesRecord` from `@mantine/form` instead of using `ReturnType<typeof useForm<…>>`:
+>
+> ```typescript
+> import { useForm, type UseFormReturnType, type FormRulesRecord } from '@mantine/form';
+>
+> interface IMyReturn {
+>   form: UseFormReturnType<IFormValues, IFormValues, FormRulesRecord<IFormValues>>;
+> }
+> ```
+
+> **Type the form return value explicitly.** When you need to type a `form` field in a custom hook's return interface, import `UseFormReturnType` and `FormRulesRecord` from `@mantine/form` instead of using `ReturnType<typeof useForm<…>>`:
+>
+> ```typescript
+> import { useForm, type UseFormReturnType, type FormRulesRecord } from '@mantine/form';
+>
+> interface IMyReturn {
+>   form: UseFormReturnType<IFormValues, IFormValues, FormRulesRecord<IFormValues>>;
+> }
+> ```
+
 ## Internationalization (i18n)
 
 The `I18nProvider` and `useI18n` hook manage multi-tenant translations, locale switching, and number/currency formatting.
