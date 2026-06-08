@@ -78,7 +78,8 @@ export const esES: TTranslationMap = {
   'page.profile.validation.invalidEmail': 'Por favor, introduce un correo electrónico válido',
   'page.profile.validation.bioTooLong': 'La biografía debe tener menos de 200 caracteres',
 
-  'page.settings.validation.handleTooShort': 'El usuario administrador debe tener al menos 3 caracteres',
+  'page.settings.validation.handleTooShort':
+    'El usuario administrador debe tener al menos 3 caracteres',
 
   'common.trend.increase': 'Aumentó en',
   'common.trend.decrease': 'Disminuyó en',
