@@ -24,7 +24,7 @@ describe('AppShell Layout', () => {
 
   it('renders the tenant logo', () => {
     renderShell();
-    expect(screen.getByText('Tenant A')).toBeInTheDocument();
+    expect(screen.getAllByText('Tenant A').length).toBeGreaterThan(0);
   });
 
   it('renders navigation links for Dashboard and Profile', () => {

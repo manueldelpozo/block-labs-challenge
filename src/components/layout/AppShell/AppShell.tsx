@@ -1,18 +1,24 @@
-import { AppShell as MantineAppShell, Burger, Group, NavLink } from '@mantine/core';
+import { AppShell as MantineAppShell, Burger, Group, NavLink, Select } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link, Outlet, useLocation } from 'react-router';
 import { TenantLogo } from '@/components/ui/TenantLogo';
 import { useTenant } from '@/hooks/useTenant';
 import { useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useI18n } from '@/hooks/useI18n';
+import { TENANT_REGISTRY } from '@/config/tenant.config';
 import classes from './AppShell.module.css';
 
 export function AppShell() {
   const [opened, { toggle, close }] = useDisclosure();
   const location = useLocation();
-  const { tenant } = useTenant();
+  const { tenant, tenantId, switchTenant } = useTenant();
   const showSettings = useFeatureFlag('showSettings');
   const { t } = useI18n();
+
+  const tenantOptions = Object.entries(TENANT_REGISTRY).map(([id, config]) => ({
+    label: config.name,
+    value: id,
+  }));
 
   const navItems = [
     { label: t('nav.dashboard'), path: '/', icon: '📊' },
@@ -37,6 +43,13 @@ export function AppShell() {
           <Link to="/" className={classes.logoContainer}>
             <TenantLogo name={tenant.name} logo={tenant.logo} />
           </Link>
+          <Select
+            data={tenantOptions}
+            value={tenantId}
+            onChange={(value) => value && switchTenant(value)}
+            size="xs"
+            w={140}
+          />
         </Group>
 
         <Group className={classes.navLinks}>
