@@ -8,6 +8,8 @@ import { esES } from '@/i18n/locales/es-ES';
 import { enUS as blockDefaultEnUS } from '@/i18n/tenants/block-default/en-US';
 import { jaJP as blockDefaultJaJP } from '@/i18n/tenants/block-default/ja-JP';
 import { esES as blockDefaultEsES } from '@/i18n/tenants/block-default/es-ES';
+import { enUS as tenantAEnUS } from '@/i18n/tenants/tenant-a/en-US';
+import { enUS as tenantBEnUS } from '@/i18n/tenants/tenant-b/en-US';
 
 const BASE_TRANSLATIONS: Record<TLocaleCode, TTranslationMap> = {
   'en-US': enUS,
@@ -15,11 +17,17 @@ const BASE_TRANSLATIONS: Record<TLocaleCode, TTranslationMap> = {
   'es-ES': esES,
 };
 
-const TENANT_OVERRIDES: Record<string, Record<TLocaleCode, TTranslationMap>> = {
+const TENANT_OVERRIDES: Record<string, Partial<Record<TLocaleCode, TTranslationMap>>> = {
   'block-default': {
     'en-US': blockDefaultEnUS,
     'ja-JP': blockDefaultJaJP,
     'es-ES': blockDefaultEsES,
+  },
+  'tenant-a': {
+    'en-US': tenantAEnUS,
+  },
+  'tenant-b': {
+    'en-US': tenantBEnUS,
   },
 };
 

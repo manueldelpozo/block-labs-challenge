@@ -57,6 +57,78 @@ export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
     },
     ctaCopy: 'Deposit Now',
   },
+  'tenant-a': {
+    id: 'tenant-a',
+    name: 'Tenant A',
+    theme: {
+      primaryColor: 'blue',
+      brandColors: [
+        '#e7f5ff', // 0
+        '#d0ebff', // 1
+        '#a5d8ff', // 2
+        '#74c0fc', // 3
+        '#4dabf7', // 4
+        '#228be6', // 5
+        '#1c7ed6', // 6
+        '#1971c2', // 7
+        '#1864ab', // 8
+        '#0b4f8c', // 9
+      ],
+      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      borderRadius: 'md',
+    },
+    features: {
+      showAnalytics: true,
+      showSettings: true,
+      enableDarkMode: true,
+      showBetaBanner: false,
+    },
+    logo: 'Tenant A',
+    apiBase: 'https://api.tenant-a.com',
+    i18n: {
+      supportedLocales: ['en-US'],
+      defaultLocale: 'en-US',
+      currency: 'USD',
+      supportedCurrencies: ['BTC', 'ETH', 'USDC', 'SOL'],
+    },
+    ctaCopy: 'Deposit Now',
+  },
+  'tenant-b': {
+    id: 'tenant-b',
+    name: 'Tenant B',
+    theme: {
+      primaryColor: 'green',
+      brandColors: [
+        '#ebfbee', // 0
+        '#d3f9d8', // 1
+        '#b2f2bb', // 2
+        '#8ce99a', // 3
+        '#69db7c', // 4
+        '#51cf66', // 5
+        '#40c057', // 6
+        '#37b24d', // 7
+        '#2f9e44', // 8
+        '#206a36', // 9
+      ],
+      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      borderRadius: 'md',
+    },
+    features: {
+      showAnalytics: true,
+      showSettings: true,
+      enableDarkMode: true,
+      showBetaBanner: false,
+    },
+    logo: 'Tenant B',
+    apiBase: 'https://api.tenant-b.com',
+    i18n: {
+      supportedLocales: ['en-US'],
+      defaultLocale: 'en-US',
+      currency: 'USD',
+      supportedCurrencies: ['ETH', 'USDC'],
+    },
+    ctaCopy: 'Deposit Now',
+  },
 };
 
 export function resolveTenantId(): string {
@@ -67,7 +139,7 @@ export function resolveTenantId(): string {
       return tenantParam;
     }
   }
-  return 'block-default';
+  return 'tenant-a';
 }
 
 export function getTenantConfig(tenantId: string): ITenantConfig {

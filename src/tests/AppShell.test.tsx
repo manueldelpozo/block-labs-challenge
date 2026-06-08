@@ -24,7 +24,7 @@ describe('AppShell Layout', () => {
 
   it('renders the tenant logo', () => {
     renderShell();
-    expect(screen.getByText('Block Labs')).toBeInTheDocument();
+    expect(screen.getByText('Tenant A')).toBeInTheDocument();
   });
 
   it('renders navigation links for Dashboard and Profile', () => {

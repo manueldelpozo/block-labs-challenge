@@ -29,7 +29,7 @@ describe('Deposit Page Integration', () => {
     renderDeposit();
     // The card inside DepositForm renders "Deposit to {tenant name}" as an H2
     expect(
-      screen.getByRole('heading', { name: /deposit to block labs default/i, level: 2 }),
+      screen.getByRole('heading', { name: /deposit to tenant a/i, level: 2 }),
     ).toBeInTheDocument();
   });
 
@@ -65,10 +65,10 @@ describe('Deposit Page Integration', () => {
     await user.click(currencySelect);
 
     // The default tenant supports BTC, ETH, USDC, SOL
-    expect(screen.getByText(/bitcoin/i)).toBeInTheDocument();
-    expect(screen.getByText(/ethereum/i)).toBeInTheDocument();
-    expect(screen.getByText(/usd coin/i)).toBeInTheDocument();
-    expect(screen.getByText(/solana/i)).toBeInTheDocument();
+    expect(screen.getByText(/bitcoin \(btc\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/ethereum \(eth\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/usd coin \(usdc\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/solana \(sol\)/i)).toBeInTheDocument();
   });
 
   it('network dropdown is disabled until a currency is selected', () => {
@@ -95,9 +95,12 @@ describe('Deposit Page Integration', () => {
     const networkSelect = getNetworkCombobox();
     expect(networkSelect).not.toBeDisabled();
     await user.click(networkSelect);
-    expect(screen.getByText(/ethereum \(erc-20\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/arbitrum/i)).toBeInTheDocument();
-    expect(screen.getByText(/optimism/i)).toBeInTheDocument();
+    const erc20Elements = screen.getAllByText(/ethereum \(erc-20\)/i);
+    expect(erc20Elements.length).toBeGreaterThanOrEqual(1);
+    const arbitrumElements = screen.getAllByText(/arbitrum/i);
+    expect(arbitrumElements.length).toBeGreaterThanOrEqual(1);
+    const optimismElements = screen.getAllByText(/optimism/i);
+    expect(optimismElements.length).toBeGreaterThanOrEqual(1);
   });
 
   it('shows min deposit hint when currency is selected', async () => {

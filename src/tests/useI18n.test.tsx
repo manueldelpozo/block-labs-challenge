@@ -3,7 +3,22 @@ import { TenantProvider } from '@/app/providers/TenantProvider';
 import { I18nProvider } from '@/app/providers/I18nProvider';
 import { useI18n } from '@/hooks/useI18n';
 import type { TLocaleCode } from '@/config/i18n.config';
+import { TenantContext } from '@/app/providers/TenantProvider';
+import { getTenantConfig } from '@/config/tenant.config';
+import type { ReactNode } from 'react';
 import { describe, it, expect, vi } from 'vitest';
+
+const blockDefaultConfig = getTenantConfig('block-default');
+
+function MultiLocaleWrapper({ children }: { children: ReactNode }) {
+  return (
+    <TenantContext.Provider
+      value={{ tenant: blockDefaultConfig, tenantId: 'block-default', isLoading: false }}
+    >
+      <I18nProvider>{children}</I18nProvider>
+    </TenantContext.Provider>
+  );
+}
 
 describe('useI18n Hook', () => {
   it('throws an error if consumed outside of an I18nProvider', () => {
@@ -18,9 +33,7 @@ describe('useI18n Hook', () => {
 
   it('returns the default locale (en-US) from tenant config', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <TenantProvider>
-        <I18nProvider>{children}</I18nProvider>
-      </TenantProvider>
+      <MultiLocaleWrapper>{children}</MultiLocaleWrapper>
     );
 
     const { result } = renderHook(() => useI18n(), { wrapper });
@@ -58,9 +71,7 @@ describe('useI18n Hook', () => {
 
   it('switches locale with setLocale and returns translated values', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <TenantProvider>
-        <I18nProvider>{children}</I18nProvider>
-      </TenantProvider>
+      <MultiLocaleWrapper>{children}</MultiLocaleWrapper>
     );
 
     const { result } = renderHook(() => useI18n(), { wrapper });
@@ -77,9 +88,7 @@ describe('useI18n Hook', () => {
 
   it('switches to Spanish (es-ES) and returns translated values', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <TenantProvider>
-        <I18nProvider>{children}</I18nProvider>
-      </TenantProvider>
+      <MultiLocaleWrapper>{children}</MultiLocaleWrapper>
     );
 
     const { result } = renderHook(() => useI18n(), { wrapper });

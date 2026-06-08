@@ -34,10 +34,10 @@ describe('Settings Page Integration', () => {
       screen.getByRole('heading', { name: /tenant specifications/i, level: 3 }),
     ).toBeInTheDocument();
 
-    expect(screen.getByText(/Block Labs Default/i)).toBeInTheDocument();
-    // block-default appears in both the Badge and Resolved Identifier rows
-    expect(screen.getAllByText(/block-default/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/https:\/\/api.blocklabs.default/i)).toBeInTheDocument();
+    expect(screen.getByText(/Tenant A/i)).toBeInTheDocument();
+    // tenant-a appears in both the Badge and Resolved Identifier rows
+    expect(screen.getAllByText(/tenant-a/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/https:\/\/api.tenant-a.com/i)).toBeInTheDocument();
   });
 
   it('renders the active feature envelopes section', () => {

@@ -16,7 +16,10 @@ export function Deposit() {
 
   const currencyData = CURRENCY_OPTIONS_LIST.filter((c) =>
     tenant.i18n.supportedCurrencies.includes(c.value),
-  ).map((c) => ({ label: c.label, value: c.value }));
+  ).map((c) => ({
+    label: `${c.label} — ${c.networks.map((n) => n.label).join(', ')}`,
+    value: c.value,
+  }));
 
   const networkData = availableNetworks.map((n) => ({ label: n.label, value: n.value }));
 
