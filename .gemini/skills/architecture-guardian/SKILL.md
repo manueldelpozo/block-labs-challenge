@@ -26,3 +26,4 @@ Reviews changes from all other agents to prevent boundary leakage. Governs the m
 - [ ] New tenants have `i18n.supportedLocales` and `i18n.defaultLocale` set in the registry entry.
 - [ ] Tests are updated for new tenant config values (useTenant.test.tsx, Settings.test.tsx, etc.).
 - [ ] Cross-layer integration gap closed — new hooks, providers, or config extensions are consumed by at least one layout component or page in the same PR, not left as isolated deliverables.
+- [ ] `npm run lint:fix` has been run and no warnings remain.

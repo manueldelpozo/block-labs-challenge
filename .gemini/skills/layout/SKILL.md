@@ -32,6 +32,9 @@ Designs structural viewport envelopes, headers, sidebars, grids, and skeleton sl
 - Ensure Mantine AppShell `collapsed` config matches breakpoint strategy to avoid DOM bloat on mobile.
 - Memoize static nav item arrays outside the component to avoid re-creation on every render.
 
+## Pre-submission
+Before submitting changes for review, run `npm run lint:fix` to auto-fix lint errors. All lint warnings must be resolved (`--max-warnings 0`).
+
 ## Quality Checklist
 - [ ] Mobile navigation states are managed locally or via light disclosures.
 - [ ] Theme configuration values are loaded dynamically from tenant context.

@@ -43,6 +43,9 @@ The other agents (hook-logic, ui-component, layout, testing) handle their respec
 - Use the `data` prop pattern (array of options) instead of recreating option lists inside the page render.
 - Verify that page chunk sizes remain small (< 5 KB gzipped for the page logic itself).
 
+## Pre-submission
+Before submitting changes for review, run `npm run lint:fix` to auto-fix lint errors. All lint warnings must be resolved (`--max-warnings 0`).
+
 ## Quality Checklist
 - [ ] Pages are asynchronously lazy loaded in router profiles.
 - [ ] Error boundary covers major route branches.

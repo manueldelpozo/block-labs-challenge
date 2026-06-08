@@ -37,6 +37,9 @@ Drafts accessible, presentational UI modules using Mantine component primitives.
 - Keep CSS Modules lean — avoid unused class selectors.
 - Import only the Mantine components needed, not the entire library.
 
+## Pre-submission
+Before submitting changes for review, run `npm run lint:fix` to auto-fix lint errors. All lint warnings must be resolved (`--max-warnings 0`).
+
 ## Quality Checklist
 - [ ] If `React.memo` is used, there is a measured reason (not defensive-default).
 - [ ] Component has a corresponding `.test.tsx` file with render + interaction tests.

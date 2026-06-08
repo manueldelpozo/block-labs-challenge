@@ -40,6 +40,9 @@ The Testing Agent is a required participant in every feature. When the Page Comp
 | **Hook (i18n)** | `renderHook` with `TenantProvider` + `I18nProvider` wrappers, test translation, fallback, locale switching, unsupported locale, currency/number formatting | `useI18n.test.tsx` |
 | **Common (ErrorBoundary, LoadingFallback)** | Test children render, error state, custom fallback, custom message | `ErrorBoundary.test.tsx` |
 
+## Pre-submission
+Before submitting changes for review, run `npm run lint:fix` to auto-fix lint errors. All lint warnings must be resolved (`--max-warnings 0`).
+
 ## Quality Checklist
 - [ ] Every new UI component has a `.test.tsx` file with render + interaction tests.
 - [ ] Every new hook has a `.test.tsx` file covering success, error, and edge case paths.

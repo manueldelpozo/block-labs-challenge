@@ -115,6 +115,12 @@ Before applying any optimization:
 
 ---
 
+## Pre-submission
+
+Before submitting changes for review, run `npm run lint:fix` to auto-fix lint errors. All lint warnings must be resolved (`--max-warnings 0`).
+
+---
+
 ## Quality Checklist
 
 - [ ] Every route is lazy-loaded with a contextual Suspense fallback.

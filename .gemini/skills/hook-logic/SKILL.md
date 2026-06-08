@@ -140,6 +140,9 @@ Each tenant's `i18n.supportedLocales` array controls:
 - Context values that change frequently should be split into separate contexts to limit re-render scope.
 - Avoid storing derived state — compute from source data with `useMemo` when the computation is expensive.
 
+## Pre-submission
+Before submitting changes for review, run `npm run lint:fix` to auto-fix lint errors. All lint warnings must be resolved (`--max-warnings 0`).
+
 ## Quality Checklist
 - [ ] Dynamic fetch functions support cancellation tokens.
 - [ ] Hooks prevent infinite loops by using refs for callback values.
