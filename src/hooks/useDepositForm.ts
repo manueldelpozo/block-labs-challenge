@@ -29,7 +29,7 @@ export interface IUseDepositFormReturn {
   /** The list of networks available for the selected currency */
   availableNetworks: TNetworkEntry[];
   /** Wrapped submit handler */
-  handleSubmit: (onSubmit: (values: IDepositFormValues) => void) => (e?: React.FormEvent) => void;
+  handleSubmit: (onSubmit: (values: IDepositFormValues) => void) => (e?: React.SyntheticEvent<HTMLFormElement>) => void;
   /** Currency change handler that syncs the network field */
   handleCurrencyChange: (value: TCurrencyValue | null) => void;
   /** Whether the form has all required fields filled */
@@ -62,7 +62,7 @@ export function useDepositForm(): IUseDepositFormReturn {
         if (!value) return 'Please select a network';
         const entry = lookupCurrency(values.currency);
         if (!entry) return 'Select a currency first';
-        const validNetworks = entry.networks.map((n) => n.value);
+        const validNetworks = entry.networks.map((n) => n.value) as string[];
         if (!validNetworks.includes(value)) return 'Invalid network for this currency';
         return null;
       },
@@ -90,7 +90,7 @@ export function useDepositForm(): IUseDepositFormReturn {
   );
 
   const availableNetworks = useMemo<TNetworkEntry[]>(
-    () => selectedCurrency?.networks ?? [],
+    () => (selectedCurrency ? [...selectedCurrency.networks] : []),
     [selectedCurrency],
   );
 
@@ -106,7 +106,7 @@ export function useDepositForm(): IUseDepositFormReturn {
       const currentNetwork = form.getValues().network;
       const entry = lookupCurrency(newCurrency);
       if (entry) {
-        const validNetworks = entry.networks.map((n) => n.value);
+        const validNetworks = entry.networks.map((n) => n.value) as string[];
         if (!validNetworks.includes(currentNetwork)) {
           form.setFieldValue('network', '');
         }

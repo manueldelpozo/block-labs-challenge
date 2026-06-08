@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { fetchDepositAddress } from '@/services/deposit';
 
 describe('fetchDepositAddress', () => {
@@ -31,9 +31,7 @@ describe('fetchDepositAddress', () => {
 
     vi.advanceTimersByTime(1600);
 
-    await expect(promise).rejects.toThrow(
-      'Failed to generate deposit address. Please try again.',
-    );
+    await expect(promise).rejects.toThrow('Failed to generate deposit address. Please try again.');
   });
 
   it('rejects with an Error instance', async () => {

@@ -34,3 +34,10 @@ Object.defineProperty(document, 'fonts', {
     dispatchEvent: vi.fn(),
   },
 });
+
+// Mock navigator.clipboard for Mantine CopyButton (not implemented in jsdom)
+Object.defineProperty(navigator, 'clipboard', {
+  value: { writeText: vi.fn().mockResolvedValue(undefined) },
+  writable: true,
+  configurable: true,
+});

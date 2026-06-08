@@ -42,7 +42,7 @@ export interface IDepositFormProps {
   submitError: string | null;
   /** Currency change handler — resets network if invalid */
   onCurrencyChange: (value: TCurrencyValue | null) => void;
-  /** Form submit callback */
+  /** Form submit callback (only called after validation passes) */
   onSubmit: (values: IDepositFormValues) => void;
 }
 
