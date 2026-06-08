@@ -24,6 +24,10 @@ export const enUS: TTranslationMap = {
   'page.dashboard.stat.conversionRate': 'Conversion Rate',
   'page.dashboard.stat.avgResponseTime': 'Avg Response Time',
 
+  'nav.deposit': 'Deposit',
+
+  'page.deposit.title': 'Deposit',
+
   'page.profile.title': 'User Profile',
   'page.profile.description': 'Manage your appearance preferences and personal information.',
   'page.profile.appearance': 'Appearance',

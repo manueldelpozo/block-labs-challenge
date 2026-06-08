@@ -71,6 +71,7 @@ export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
 | `i18n.supportedLocales` | `string[]` | List of locale codes this tenant supports (e.g. `['en-US', 'ja-JP']`) |
 | `i18n.defaultLocale` | `string` | Default locale when none is selected (must be in `supportedLocales`) |
 | `i18n.currency` | `string` | ISO 4217 currency code for `Intl.NumberFormat` (e.g. `USD`, `JPY`) |
+| `i18n.supportedCurrencies` | `string[]` | List of currency values the tenant supports for deposits (e.g. `['BTC', 'ETH', 'USDC', 'SOL']`) |
 
 ---
 
@@ -109,6 +110,12 @@ Add a new entry to `TENANT_REGISTRY` in `src/config/tenant.config.ts`:
   },
   logo: 'Custom Corp',
   apiBase: 'https://api.customcorp.com',
+  i18n: {
+    supportedLocales: ['en-US'],
+    defaultLocale: 'en-US',
+    currency: 'USD',
+    supportedCurrencies: ['BTC', 'ETH', 'USDC', 'SOL'],
+  },
 }
 ```
 

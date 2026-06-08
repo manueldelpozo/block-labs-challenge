@@ -16,6 +16,8 @@ export interface ITenantConfig {
   logo: string;
   apiBase: string;
   i18n: ITenantI18nConfig;
+  /** Call-to-action copy for primary deposit button */
+  ctaCopy: string;
 }
 
 export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
@@ -51,7 +53,9 @@ export const TENANT_REGISTRY: Record<string, ITenantConfig> = {
       supportedLocales: ['en-US', 'ja-JP', 'es-ES'],
       defaultLocale: 'en-US',
       currency: 'USD',
+      supportedCurrencies: ['BTC', 'ETH', 'USDC', 'SOL'],
     },
+    ctaCopy: 'Deposit Now',
   },
 };
 

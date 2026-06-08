@@ -8,6 +8,7 @@ export interface ITenantI18nConfig {
   supportedLocales: TLocaleCode[];
   defaultLocale: TLocaleCode;
   currency: string;
+  supportedCurrencies: string[];
 }
 
 export type TTranslationMap = Record<string, string>;

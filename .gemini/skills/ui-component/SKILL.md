@@ -22,7 +22,6 @@ Drafts accessible, presentational UI modules using Mantine component primitives.
 - Colocate CSS Modules for unique class modifiers.
 - Implement full ARIA accessibility descriptors.
 - **Use Mantine's exported TypeScript types.** `@mantine/core` exports prop types for every component (`ButtonProps`, `SelectProps`, `TextInputProps`, etc.). Import them instead of re-declaring prop interfaces manually. For wrapping native elements, use `ComponentPropsWithoutRef<'button'>` from React. For Mantine polymorphic components, use the component's exported `*Props` type (e.g. `ButtonProps` includes `component` and other polymorphic props).
-- **Use Mantine's exported TypeScript types.** `@mantine/core` exports prop types for every component (`ButtonProps`, `SelectProps`, `TextInputProps`, etc.). Import them instead of re-declaring prop interfaces manually. For wrapping native elements, use `ComponentPropsWithoutRef<'button'>` from React. For Mantine polymorphic components, use the component's exported `*Props` type (e.g. `ButtonProps` includes `component` and other polymorphic props).
 
 ## Testing
 - Write a `.test.tsx` file for every component (co-located in `src/tests/`).
@@ -47,3 +46,4 @@ Before submitting changes for review, run `npm run lint:fix` to auto-fix lint er
 - [ ] Component does not access global react-router state.
 - [ ] Test asserts that accessible roles and ARIA attributes are rendered.
 - [ ] No inline function/object literals in props passed to memoized children.
+- [ ] No hooks are imported or called in the component — all data and callbacks come via props.

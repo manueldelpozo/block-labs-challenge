@@ -16,6 +16,7 @@ export function AppShell() {
 
   const navItems = [
     { label: t('nav.dashboard'), path: '/', icon: '📊' },
+    { label: t('nav.deposit'), path: '/deposit', icon: '💰' },
     { label: t('nav.profile'), path: '/profile', icon: '👤' },
     ...(showSettings ? [{ label: t('nav.settings'), path: '/settings', icon: '⚙️' }] : []),
   ];
