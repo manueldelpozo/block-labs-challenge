@@ -1,4 +1,5 @@
-import { Paper, Stack, Title, Text, Group, CopyButton, Button, Divider } from '@mantine/core';
+import { Paper, Stack, Title, Text, Group, CopyButton, ActionIcon, Button, Divider } from '@mantine/core';
+import { Copy, Check } from '@phosphor-icons/react';
 
 export interface ICopyDepositAddressProps {
   /** The deposit address to display and copy */
@@ -37,9 +38,14 @@ export function CopyDepositAddress({
         <Group>
           <CopyButton value={address}>
             {({ copied, copy }) => (
-              <Button color={primaryColor} onClick={copy}>
-                {copied ? 'Copied!' : 'Copy Address'}
-              </Button>
+              <ActionIcon
+                color={primaryColor}
+                variant={copied ? 'filled' : 'outline'}
+                onClick={copy}
+                aria-label={copied ? 'Copied' : 'Copy address'}
+              >
+                {copied ? <Check size={18} /> : <Copy size={18} />}
+              </ActionIcon>
             )}
           </CopyButton>
           <Button variant="subtle" onClick={onReset}>

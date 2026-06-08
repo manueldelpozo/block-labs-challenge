@@ -65,13 +65,13 @@ describe('CopyDepositAddress', () => {
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('bc1qabc123xyz');
   });
 
-  it('shows Copied! text after clicking copy', async () => {
+  it('shows copied state after clicking copy', async () => {
     const user = userEvent.setup();
     renderComponent();
 
     const copyBtn = screen.getByRole('button', { name: /copy address/i });
     await user.click(copyBtn);
 
-    expect(await screen.findByRole('button', { name: /copied!/i })).toBeInTheDocument();
+    expect(await screen.findByRole('button', { name: /^copied$/i })).toBeInTheDocument();
   });
 });
