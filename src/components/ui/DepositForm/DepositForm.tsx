@@ -11,7 +11,7 @@ import {
 } from '@mantine/core';
 import type { UseFormReturnType, FormRulesRecord } from '@mantine/form';
 import type { IDepositFormValues } from '@/hooks/useDepositForm';
-import type { TCurrencyEntry, TCurrencyValue } from '@/config/deposit.config';
+import type { TCurrencyEntry } from '@/config/deposit.config';
 
 /* ── Props ─────────────────────────────────────────────── */
 
@@ -40,8 +40,6 @@ export interface IDepositFormProps {
   isSubmitting: boolean;
   /** Error message from submission (null if no error) */
   submitError: string | null;
-  /** Currency change handler — resets network if invalid */
-  onCurrencyChange: (value: TCurrencyValue | null) => void;
   /** Form submit callback (only called after validation passes) */
   onSubmit: (values: IDepositFormValues) => void;
 }
@@ -59,7 +57,6 @@ export function DepositForm({
   isReady,
   isSubmitting,
   submitError,
-  onCurrencyChange,
   onSubmit,
 }: IDepositFormProps) {
   return (
@@ -81,9 +78,6 @@ export function DepositForm({
             searchable
             clearable
             {...form.getInputProps('currency')}
-            onChange={(value) => {
-              onCurrencyChange(value as TCurrencyValue | null);
-            }}
           />
 
           {/* ── Network Select ───────────────────────────── */}

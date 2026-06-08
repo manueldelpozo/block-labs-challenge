@@ -30,8 +30,6 @@ export interface IUseDepositFormReturn {
   availableNetworks: TNetworkEntry[];
   /** Wrapped submit handler */
   handleSubmit: (onSubmit: (values: IDepositFormValues) => void) => (e?: React.SyntheticEvent<HTMLFormElement>) => void;
-  /** Currency change handler that syncs the network field */
-  handleCurrencyChange: (value: TCurrencyValue | null) => void;
   /** Whether the form has all required fields filled */
   isReady: boolean;
 }
@@ -78,6 +76,19 @@ export function useDepositForm(): IUseDepositFormReturn {
         return null;
       },
     },
+    onValuesChange: (values, previous) => {
+      if (values.currency !== previous.currency) {
+        const entry = lookupCurrency(values.currency);
+        if (entry) {
+          const validNetworks = entry.networks.map((n) => n.value) as string[];
+          if (!validNetworks.includes(values.network)) {
+            form.setFieldValue('network', '');
+          }
+        } else {
+          form.setFieldValue('network', '');
+        }
+      }
+    },
   });
 
   /* ── Reactive derived state (controlled mode) ──────────── */
@@ -96,27 +107,6 @@ export function useDepositForm(): IUseDepositFormReturn {
 
   const isReady = values.currency !== '' && values.network !== '' && values.amount !== '';
 
-  /* ── Currency change handler — resets network if invalid ── */
-
-  const handleCurrencyChange = useCallback(
-    (value: TCurrencyValue | null) => {
-      const newCurrency = value ?? '';
-      form.setFieldValue('currency', newCurrency);
-
-      const currentNetwork = form.getValues().network;
-      const entry = lookupCurrency(newCurrency);
-      if (entry) {
-        const validNetworks = entry.networks.map((n) => n.value) as string[];
-        if (!validNetworks.includes(currentNetwork)) {
-          form.setFieldValue('network', '');
-        }
-      } else {
-        form.setFieldValue('network', '');
-      }
-    },
-    [form],
-  );
-
   /* ── Submit handler wrapper ─────────────────────────────── */
 
   const handleSubmit = useCallback(
@@ -129,7 +119,6 @@ export function useDepositForm(): IUseDepositFormReturn {
     selectedCurrency,
     availableNetworks,
     handleSubmit,
-    handleCurrencyChange,
     isReady,
   } as const;
 }

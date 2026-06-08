@@ -14,7 +14,7 @@ export function Deposit() {
   const { tenant, tenantId } = useTenant();
   const { t } = useI18n();
 
-  const { form, selectedCurrency, availableNetworks, handleCurrencyChange, isReady } =
+  const { form, selectedCurrency, availableNetworks, isReady } =
     useDepositForm();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,7 +27,7 @@ export function Deposit() {
     setSubmitError(null);
     setDepositAddress(null);
     setIsSubmitting(false);
-  }, [tenantId, form]);
+  }, [tenantId]);
 
   const currencyData = CURRENCY_OPTIONS_LIST.filter((c) =>
     tenant.i18n.supportedCurrencies.includes(c.value),
@@ -57,7 +57,7 @@ export function Deposit() {
     setDepositAddress(null);
     setSubmitError(null);
     form.reset();
-  }, [form]);
+  }, []);
 
   return (
     <PageContainer title={t('page.deposit.title')}>
@@ -74,7 +74,6 @@ export function Deposit() {
             isReady={isReady}
             isSubmitting={isSubmitting}
             submitError={submitError}
-            onCurrencyChange={handleCurrencyChange}
             onSubmit={onSubmit}
           />
           {depositAddress && (

@@ -62,7 +62,7 @@ describe('useDepositForm', () => {
     expect(result.current.availableNetworks).toHaveLength(0);
   });
 
-  it('handleCurrencyChange sets currency and resets network if invalid', () => {
+  it('resets network when currency changes to one that does not support current network', () => {
     const { result } = renderHook(() => useDepositForm());
 
     act(() => {
@@ -70,7 +70,7 @@ describe('useDepositForm', () => {
     });
 
     act(() => {
-      result.current.handleCurrencyChange('ETH');
+      result.current.form.setFieldValue('currency', 'ETH');
     });
 
     const values = result.current.form.getValues();
@@ -79,7 +79,7 @@ describe('useDepositForm', () => {
     expect(values.network).toBe('');
   });
 
-  it('handleCurrencyChange does not reset network if valid for new currency', () => {
+  it('preserves network when it is valid for the new currency', () => {
     const { result } = renderHook(() => useDepositForm());
 
     act(() => {
@@ -87,7 +87,7 @@ describe('useDepositForm', () => {
     });
 
     act(() => {
-      result.current.handleCurrencyChange('ETH');
+      result.current.form.setFieldValue('currency', 'ETH');
     });
 
     const values = result.current.form.getValues();
