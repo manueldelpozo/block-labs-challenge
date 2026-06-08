@@ -36,6 +36,10 @@ export interface IDepositFormProps {
   selectedCurrency: TCurrencyEntry | null;
   /** Whether all required fields are filled */
   isReady: boolean;
+  /** Whether the form is currently submitting an async request */
+  isSubmitting: boolean;
+  /** Error message from submission (null if no error) */
+  submitError: string | null;
   /** Currency change handler — resets network if invalid */
   onCurrencyChange: (value: TCurrencyValue | null) => void;
   /** Form submit callback */
@@ -53,6 +57,8 @@ export function DepositForm({
   networkData,
   selectedCurrency,
   isReady,
+  isSubmitting,
+  submitError,
   onCurrencyChange,
   onSubmit,
 }: IDepositFormProps) {
@@ -107,9 +113,23 @@ export function DepositForm({
             </Text>
           )}
 
+          {/* ── Submit Error ─────────────────────────────── */}
+          {submitError && (
+            <Text size="sm" c="red" role="alert">
+              {submitError}
+            </Text>
+          )}
+
           {/* ── CTA Button ───────────────────────────────── */}
           <Group justify="flex-end" mt="sm">
-            <Button type="submit" color={primaryColor} disabled={!isReady} size="md" fullWidth>
+            <Button
+              type="submit"
+              color={primaryColor}
+              disabled={!isReady || isSubmitting}
+              loading={isSubmitting}
+              size="md"
+              fullWidth
+            >
               {ctaCopy}
             </Button>
           </Group>
